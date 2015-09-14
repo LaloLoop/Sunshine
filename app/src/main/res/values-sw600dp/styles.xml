@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Style for ListView on 1 pane mode -->
+    <style name="WeatherListStyle" parent="Widget.AppCompat.ListView">
+        <item name="android:choiceMode">singleChoice</item>
+    </style>
+
+    <!-- List item style -->
+    <style name="ListItemTextLarge">
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="ListItemTextSmall">
+        <item name="android:textSize">12sp</item>
+    </style>
+
+</resources>

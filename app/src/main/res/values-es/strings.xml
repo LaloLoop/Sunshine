@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="http://schemas.android.com/apk/res-auto">
+    <!--<string name="action_refresh" translatable="false">Actualizar</string>-->
+    <string name="action_settings">Preferencias</string>
+    <string name="action_share">Compartir</string>
+    <string name="action_view_on_map">Ver en mapa</string>
+    <string name="content_desc_today_weather">Clima de hoy</string>
+    <string name="content_desc_weather_icon">Icono de clima</string>
+    <string name="error_no_maps_app">No posee una aplicación de mapas, instale una.</string>
+    <string name="format_humidity">Humedad: <xliff:g id="humidity">%1.0f</xliff:g> %%</string>
+    <string name="format_notification">Clima: <xliff:g id="condition">%1$s</xliff:g> Máx: <xliff:g id="high">%2$s</xliff:g> Mín: <xliff:g id="low">%3$s</xliff:g></string>
+    <string name="format_pressure">Presión: <xliff:g id="pressure">%1.0f</xliff:g> hPa</string>
+    <string name="format_wind_kmh">Viento: <xliff:g id="speed">%1$1.0f</xliff:g> km/h <xliff:g id="direction">%2$s</xliff:g></string>
+    <string name="format_wind_mph">Viento: <xliff:g id="speed">%1$1.0f</xliff:g> mph <xliff:g id="direction">%2$s</xliff:g></string>
+    <string name="pref_location_label">Ubicación</string>
+    <string name="pref_units_imperial">Imperiales</string>
+    <string name="pref_units_label">Unidades</string>
+    <string name="pref_units_metric">Métricas</string>
+    <string name="title_activity_detail">Detalle</string>
+    <string name="title_activity_settings">Preferencias</string>
+    <string name="today">Hoy</string>
+    <string name="tomorrow">Mañana</string>
+    <string name="pref_enable_notifications_false">No habilitadas</string>
+    <string name="pref_enable_notifications_label">Notificaciones del clima</string>
+    <string name="pref_enable_notifications_true">Habilitadas</string>
+</resources>

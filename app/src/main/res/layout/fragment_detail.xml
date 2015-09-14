@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="Today"
+            android:layout_marginBottom="10dp"
+            android:id="@+id/detail_day_textview"
+            android:fontFamily="sans-serif-condensed"
+            android:textSize="24sp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="June 24"
+            android:layout_marginBottom="10dp"
+            android:textSize="16sp"
+            android:fontFamily="sans-serif-condensed"
+            android:textColor="#646464"
+            android:id="@+id/detail_month_textview"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:baselineAligned="false"
+            android:layout_marginBottom="16dp">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="21º"
+                    android:textSize="96sp"
+                    android:id="@+id/detail_high_textview"
+                    android:fontFamily="sans-serif-light"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="8º"
+                    android:textSize="48sp"
+                    android:fontFamily="sans-serif-light"
+                    android:id="@+id/detail_low_textview"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center">
+
+                <ImageView
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    tools:src="@mipmap/ic_launcher"
+                    android:id="@+id/detail_icon"
+                    android:contentDescription="@string/content_desc_weather_icon" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:text="Clear"
+                    android:gravity="center"
+                    android:id="@+id/detail_forecast_textview"
+                    android:textAppearance="?android:textAppearanceLarge"
+                    android:fontFamily="sans-serif-light"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="Humidity: 84%"
+            android:layout_marginBottom="4dp"
+            android:id="@+id/detail_humidity_textview"
+            android:textAppearance="?android:textAppearanceLarge"
+            android:fontFamily="sans-serif-light"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="Pressure: 1014 hPa"
+            android:layout_marginBottom="4dp"
+            android:id="@+id/detail_preassure_textview"
+            android:textAppearance="?android:textAppearanceLarge"
+            android:fontFamily="sans-serif-light"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="Wind: 6km/H NW"
+            android:textAppearance="@android:style/TextAppearance.Large"
+            android:id="@+id/detail_wind_textview"
+            android:fontFamily="sans-serif-light"/>
+
+    </LinearLayout>
+</ScrollView>
