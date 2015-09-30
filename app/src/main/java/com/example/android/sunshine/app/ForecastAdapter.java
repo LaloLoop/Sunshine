@@ -79,6 +79,7 @@ public class ForecastAdapter extends CursorAdapter {
 
         // Read weather icon ID from cursor
         int weatherId = cursor.getInt(ForecastFragment.COL_WEATHER_CONDITION_ID);
+        String description = Utility.getStringForWeatherCondition(context, weatherId);
 
         // Get art or ic depending on view type
         int resourceId;
@@ -96,20 +97,23 @@ public class ForecastAdapter extends CursorAdapter {
         vh.dateView.setText(Utility.getFriendlyDayString(context, date));
 
         // Read weather forecast from cursor
-        String forecast = cursor.getString(ForecastFragment.COL_WEATHER_DESC);
-        vh.forecastView.setText(forecast);
-        vh.iconView.setContentDescription(forecast);
+        vh.forecastView.setText(description);
+        vh.forecastView.setContentDescription(context.getString(R.string.a11y_forecast, description));
 
         // Read user preference for metric
         boolean isMetric = Utility.isMetric(context);
 
         // Read high temperature from cursor
         double high = cursor.getDouble(ForecastFragment.COL_WEATHER_MAX_TEMP);
-        vh.highView.setText(Utility.formatTemperature(context, high, isMetric));
+        String highStr = Utility.formatTemperature(context, high, isMetric);
+        vh.highView.setText(highStr);
+        vh.highView.setContentDescription(context.getString(R.string.a11y_high_temp, highStr));
 
         // Read low temperature from cursor
         double low = cursor.getDouble(ForecastFragment.COL_WEATHER_MIN_TEMP);
-        vh.lowView.setText(Utility.formatTemperature(context, low, isMetric));
+        String lowStr = Utility.formatTemperature(context, low, isMetric);
+        vh.lowView.setText(lowStr);
+        vh.lowView.setContentDescription(context.getString(R.string.a11y_low_temp, lowStr));
     }
 
     static class ViewHolder {

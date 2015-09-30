@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -350,12 +351,20 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
         if(mForecastAdapter.getCount() == 0) {
             mEmptyWatherView.setText(R.string.no_weather_data);
 
+            @StringRes
+            int msgId = 0;
+
             if(!Utility.checkNetworkConnected(getActivity())) {
-                mEmptyWatherView.append("\n" + getString(R.string.no_network_available));
+                msgId = R.string.no_network_available;
             } else if(mSyncStatus == SunshineSyncAdapter.LOCATION_STATUS_SERVER_DOWN){
-                mEmptyWatherView.append("\n" + getString(R.string.server_is_down));
+                msgId = R.string.server_is_down;
             } else if(mSyncStatus == SunshineSyncAdapter.LOCATION_STATUS_SERVER_INVALID){
-                mEmptyWatherView.append("\n" + getString(R.string.invalid_server));
+                msgId = R.string.invalid_server;
+            } else if(mSyncStatus == SunshineSyncAdapter.LOCATION_STATUS_INVALID) {
+                msgId = R.string.empty_forecast_list_invalid_location;
+            }
+            if(msgId != 0) {
+                mEmptyWatherView.append("\n" + getString(msgId));
             }
         }
     }

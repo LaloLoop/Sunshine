@@ -204,26 +204,41 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
 
             boolean isMetric = Utility.isMetric(getActivity());
 
-            mHighTextView.setText(Utility.formatTemperature(
-                    getActivity(), data.getDouble(COL_WEATHER_MAX_TEMP), isMetric));
+            String highStr = Utility.formatTemperature(
+                    getActivity(), data.getDouble(COL_WEATHER_MAX_TEMP), isMetric);
+            mHighTextView.setText(highStr);
+            mHighTextView.setContentDescription(getString(R.string.a11y_high_temp, highStr));
 
-            mLowTextView.setText(Utility.formatTemperature(
-                    getActivity(), data.getDouble(COL_WEATHER_MIN_TEMP), isMetric));
+            String lowStr = Utility.formatTemperature(
+                    getActivity(), data.getDouble(COL_WEATHER_MIN_TEMP), isMetric);
+            mLowTextView.setText(lowStr);
+            mLowTextView.setContentDescription(getString(R.string.a11y_low_temp, lowStr));
 
-            String description = data.getString(COL_WEATHER_DESC);
+            String description = Utility.getStringForWeatherCondition(getActivity(), weatherId);
             mForecastTextView.setText(description);
-            mIconView.setContentDescription(description);
+            mForecastTextView.setContentDescription(getString(R.string.a11y_forecast, description));
+
+            /* For accessibility, ad a content descripton for the icon field.
+             * Because the ImageView is indepently focusable, it's better to have a description
+             * of the image. Using null is appropiate when the image is purely decorative or when
+             * the image already has text describing it in the same UI component.
+             */
+
+            mIconView.setContentDescription(getString(R.string.a11y_forecast_icon, description));
 
             mHumidityTextView.setText(getString(R.string.format_humidity,
                     data.getFloat(COL_WEATHER_HUMIDITY)));
+            mHumidityTextView.setContentDescription(mHumidityTextView.getText());
 
             mWindTextView.setText(Utility.getFormattedWind(
                     getActivity(),
                     data.getFloat(COL_WEATHER_WIND_SPEED),
                     data.getFloat(COL_WEATHER_DEGREES)));
+            mWindTextView.setContentDescription(mWindTextView.getText());
 
             mPressureTextView.setText(getString(R.string.format_pressure,
                     data.getFloat(COL_WEATHER_PRESSURE)));
+            mPressureTextView.setContentDescription(mPressureTextView.getText());
 
             // Get share string
             mForecast = convertCursorRowToUXFormat(data);

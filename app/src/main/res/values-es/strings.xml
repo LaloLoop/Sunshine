@@ -6,7 +6,7 @@
     <string name="action_view_on_map">Ver en mapa</string>
     <string name="content_desc_today_weather">Clima de hoy</string>
     <string name="content_desc_weather_icon">Icono de clima</string>
-    <string name="error_no_maps_app">No posee una aplicación de mapas, instale una.</string>
+    <string name="error_no_maps_app">No posee una aplicación de mapas, instale una</string>
     <string name="format_humidity">Humedad: <xliff:g id="humidity">%1.0f</xliff:g> %%</string>
     <string name="format_notification">Clima: <xliff:g id="condition">%1$s</xliff:g> Máx: <xliff:g id="high">%2$s</xliff:g> Mín: <xliff:g id="low">%3$s</xliff:g></string>
     <string name="format_pressure">Presión: <xliff:g id="pressure">%1.0f</xliff:g> hPa</string>
@@ -23,4 +23,72 @@
     <string name="pref_enable_notifications_false">No habilitadas</string>
     <string name="pref_enable_notifications_label">Notificaciones del clima</string>
     <string name="pref_enable_notifications_true">Habilitadas</string>
+    <string name="empty_forecast_list_invalid_location">La ubicación en las preferencias no es reconocida por el servidor del clima</string>
+    <string name="invalid_server">Búsque actualizaciones para Sunshine</string>
+    <string name="no_network_available">La red no está disponible para obtener datos del clima</string>
+    <string name="no_weather_data">No hay información del clima disponible</string>
+    <string name="pref_location_error_description">Ubicación Inválida (<xliff:g id="location_setting">%1$s</xliff:g>)</string>
+    <string name="pref_location_unknown_description">Validando Ubicación... (<xliff:g id="location_setting">%1$s</xliff:g>)"</string>
+    <string name="server_is_down">El servicio del clima no está disponible en este momento</string>
+    <string name="a11y_forecast">Pronóstico: <xliff:g id="condition">%1$s</xliff:g></string>
+    <string name="a11y_forecast_icon">Icono de pronóstico: </string>
+    <string name="a11y_high_temp">Alta: <xliff:g id="high">%1$s</xliff:g></string>
+    <string name="a11y_low_temp">Baja: <xliff:g id="low">%1$s</xliff:g></string>
+    <string name="condition_2xx">Tormenta</string>
+    <string name="condition_3xx">Llovizna</string>
+    <string name="condition_500">Lluvia Ligera</string>
+    <string name="condition_501">Lluvia Moderada</string>
+    <string name="condition_502">Chubasco</string>
+    <string name="condition_503">Lluvia Intensa</string>
+    <string name="condition_504">Lluvia Extrema</string>
+    <string name="condition_511">Lluvia Congelante</string>
+    <string name="condition_520">Chispeo Ligero</string>
+    <string name="condition_521">Chispeo</string>
+    <string name="condition_522">Chispeo Intenso</string>
+    <string name="condition_531">Chispeo Irregular</string>
+    <string name="condition_600">Nieve Ligera</string>
+    <string name="condition_601">Nieve</string>
+    <string name="condition_602">Nieve pesada</string>
+    <string name="condition_611">Aguanieve</string>
+    <string name="condition_612">Chispeo con Aguanieve</string>
+    <string name="condition_615">Lluvia y Nieve</string>
+    <string name="condition_616">Lluvia y Nieve</string>
+    <string name="condition_620">Chispeo y Nieve</string>
+    <string name="condition_621">Chispeo y Nieve</string>
+    <string name="condition_622">Chispeo y Nieve</string>
+    <string name="condition_701">Neblina</string>
+    <string name="condition_711">Neblina</string>
+    <string name="condition_721">Neblina</string>
+    <string name="condition_731">Arena, Polvo</string>
+    <string name="condition_741">Niebla</string>
+    <string name="condition_751">Arena</string>
+    <string name="condition_761">Polvo</string>
+    <string name="condition_762">Ceniza Volcánica</string>
+    <string name="condition_771">Chubascos</string>
+    <string name="condition_781">Tornado</string>
+    <string name="condition_800">Despejado</string>
+    <string name="condition_801">Mayormente Despejado</string>
+    <string name="condition_802">Nubes Dispersas</string>
+    <string name="condition_803">Cielo Nuboso</string>
+    <string name="condition_804">Nublado</string>
+    <string name="condition_900">Tornado</string>
+    <string name="condition_901">Tormenta Tropical</string>
+    <string name="condition_902">Huracán</string>
+    <string name="condition_903">Frío</string>
+    <string name="condition_904">Cálido</string>
+    <string name="condition_905">Ventoso</string>
+    <string name="condition_906">Granizo</string>
+    <string name="condition_951">Calmo</string>
+    <string name="condition_952">Briza Ligera</string>
+    <string name="condition_953">Briza Suave</string>
+    <string name="condition_954">Briza</string>
+    <string name="condition_955">Briza Fresca</string>
+    <string name="condition_956">Briza Fuerte</string>
+    <string name="condition_957">Fuerte Viento</string>
+    <string name="condition_958">Ventarrón</string>
+    <string name="condition_959">Ventarrón Severo</string>
+    <string name="condition_960">Tormenta</string>
+    <string name="condition_961">Tormenta Violenta</string>
+    <string name="condition_962">Huracán</string>
+    <string name="condition_unknown">Desconocido (<xliff:g id="low">%1$s</xliff:g>)</string>
 </resources>

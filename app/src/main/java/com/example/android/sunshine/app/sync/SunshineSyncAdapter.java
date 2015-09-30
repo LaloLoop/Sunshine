@@ -47,7 +47,7 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
     public final String LOG_TAG = SunshineSyncAdapter.class.getSimpleName();
 
     @IntDef({LOCATION_STATUS_OK, LOCATION_STATUS_SERVER_DOWN, LOCATION_STATUS_SERVER_INVALID,
-            LOCATION_STATUS_UNKNOWN})
+            LOCATION_STATUS_UNKNOWN, LOCATION_STATUS_INVALID})
     @Retention(RetentionPolicy.SOURCE)
     public @interface LocationStatus {}
 
@@ -55,6 +55,7 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
     public static final int LOCATION_STATUS_SERVER_DOWN = 1;
     public static final int LOCATION_STATUS_SERVER_INVALID = 2;
     public static final int LOCATION_STATUS_UNKNOWN = 3;
+    public static final int LOCATION_STATUS_INVALID = 4;
 
     // Interval at which to sync with the weather, in milliseconds.
     // 60 seconds (1 minute) * 180 = 3 hours
@@ -108,8 +109,7 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
             // Possible parameters are available at OWM's forecast API page, at
             // http://openweathermap.org/API#forecast
             final String FORECAST_BASE_URL =
-//                    "http://api.openweathermap.org/data/2.5/forecast/daily?";
-            "http://www.google.com/ping?";
+                    "http://api.openweathermap.org/data/2.5/forecast/daily?";
             final String QUERY_PARAM = "q";
             final String FORMAT_PARAM = "mode";
             final String UNITS_PARAM = "units";
@@ -315,8 +315,21 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
         final String OWM_DESCRIPTION = "main";
         final String OWM_WEATHER_ID = "id";
 
+        final String OWN_MESSAGE_CODE = "cod";
+
+
         try {
             JSONObject forecastJson = new JSONObject(forecastJsonStr);
+
+            int code = 0;
+            if(forecastJson.has(OWN_MESSAGE_CODE)) {
+                code = forecastJson.getInt(OWN_MESSAGE_CODE);
+                if(code == 404) {
+                    Utility.saveSyncStatus(getContext(), LOCATION_STATUS_INVALID);
+                    return;
+                }
+            }
+
             JSONArray weatherArray = forecastJson.getJSONArray(OWM_LIST);
 
             JSONObject cityJson = forecastJson.getJSONObject(OWM_CITY);

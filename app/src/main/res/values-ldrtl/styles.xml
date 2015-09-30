@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Forecast list item style -->
+    <style name="ListItemTextLarge" parent="@android:style/TextAppearance.Large">
+        <item name="android:layout_gravity">right</item>
+        <item name="android:gravity">end</item>
+    </style>
+
+    <style name="ListItemTextSmall" parent="android:style/TextAppearance.Small">
+        <item name="android:layout_gravity">right</item>
+        <item name="android:gravity">end</item>
+    </style>
+
+    <style name="DetailTodayHeader">
+        <item name="android:layout_marginBottom">10dp</item>
+        <item name="android:textSize">24sp</item>
+        <item name="android:gravity">end</item>
+    </style>
+
+    <style name="DetailTodaySubtitle">
+        <item name="android:layout_marginBottom">10dp</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">#646464</item>
+        <item name="android:gravity">end</item>
+    </style>
+
+    <style name="WeatherDetails" parent="@android:style/TextAppearance.Large">
+        <item name="android:layout_marginBottom">4dp</item>
+        <item name="android:gravity">end</item>
+    </style>
+
+</resources>
