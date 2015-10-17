@@ -14,6 +14,7 @@ import android.content.SharedPreferences;
 import android.content.SyncRequest;
 import android.content.SyncResult;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -24,6 +25,7 @@ import android.support.v4.app.TaskStackBuilder;
 import android.text.format.Time;
 import android.util.Log;
 
+import com.bumptech.glide.Glide;
 import com.example.android.sunshine.app.MainActivity;
 import com.example.android.sunshine.app.R;
 import com.example.android.sunshine.app.Utility;
@@ -42,6 +44,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Vector;
+import java.util.concurrent.ExecutionException;
 
 public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
     public final String LOG_TAG = SunshineSyncAdapter.class.getSimpleName();
@@ -103,6 +106,7 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
         String format = "json";
         String units = "metric";
         int numDays = 14;
+        String appId = getContext().getString(R.string.appId);
 
         try {
             // Construct the URL for the OpenWeatherMap query
@@ -114,12 +118,14 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
             final String FORMAT_PARAM = "mode";
             final String UNITS_PARAM = "units";
             final String DAYS_PARAM = "cnt";
+            final String API_KEY = "APPID";
 
             Uri builtUri = Uri.parse(FORECAST_BASE_URL).buildUpon()
                     .appendQueryParameter(QUERY_PARAM, locationSettings)
                     .appendQueryParameter(FORMAT_PARAM, format)
                     .appendQueryParameter(UNITS_PARAM, units)
                     .appendQueryParameter(DAYS_PARAM, Integer.toString(numDays))
+                    .appendQueryParameter(API_KEY, appId)
                     .build();
 
             URL url = new URL(builtUri.toString());
@@ -523,7 +529,7 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
                     int weatherId = cursor.getInt(INDEX_WEATHER_ID);
                     double high = cursor.getDouble(INDEX_MAX_TEMP);
                     double low = cursor.getDouble(INDEX_MIN_TEMP);
-                    String desc = cursor.getString(INDEX_SHORT_DESC);
+                    String desc = Utility.getStringForWeatherCondition(context, weatherId);
 
                     int iconId = Utility.getIconResourceForWeatherCondition(weatherId);
                     String title = context.getString(R.string.app_name);
@@ -541,9 +547,32 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
                     // notifications.  Just throw in some data.
                     NotificationCompat.Builder mBuilder =
                             new NotificationCompat.Builder(getContext())
-                                    .setSmallIcon(iconId)
                                     .setContentTitle(title)
                                     .setContentText(contentText);
+
+                    int largeIconWidth = Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB
+                            ? context.getResources().getDimensionPixelSize(android.R.dimen.notification_large_icon_width)
+                            : context.getResources().getDimensionPixelSize(R.dimen.notification_large_icon_default);
+                    int largeIconHeight = Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB
+                            ? context.getResources().getDimensionPixelSize(android.R.dimen.notification_large_icon_height)
+                            : context.getResources().getDimensionPixelSize(R.dimen.notification_large_icon_default);
+
+                    String artUrl = Utility.getArtUrlForWeatherCondition(context, weatherId);
+
+                    try {
+
+                        Bitmap largeIcon = Glide.with(context)
+                                .load(artUrl)
+                                .asBitmap()
+                                .error(iconId)
+                                .into(largeIconWidth, largeIconHeight)
+                                .get();
+
+                        mBuilder = mBuilder.setLargeIcon(largeIcon).setSmallIcon(iconId);
+
+                    } catch(InterruptedException | ExecutionException e) {
+                        mBuilder = mBuilder.setSmallIcon(iconId);
+                    }
 
                     // Make something interesting happen when the user clicks on the notification.
                     // In this case, opening the app is sufficient.

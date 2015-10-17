@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
 /**
  * {@link ForecastAdapter} exposes a list of weather forecasts
  * from a {@link android.database.Cursor} to a {@link android.widget.ListView}.
@@ -80,6 +82,7 @@ public class ForecastAdapter extends CursorAdapter {
         // Read weather icon ID from cursor
         int weatherId = cursor.getInt(ForecastFragment.COL_WEATHER_CONDITION_ID);
         String description = Utility.getStringForWeatherCondition(context, weatherId);
+        String artUrl = Utility.getArtUrlForWeatherCondition(context, weatherId);
 
         // Get art or ic depending on view type
         int resourceId;
@@ -90,7 +93,7 @@ public class ForecastAdapter extends CursorAdapter {
         }
 
         // Use a placeholder image for now
-        vh.iconView.setImageResource(resourceId);
+        Glide.with(context).load(artUrl).error(resourceId).into(vh.iconView);
 
         // Read date from cursor
         long date = cursor.getLong(ForecastFragment.COL_WEATHER_DATE);

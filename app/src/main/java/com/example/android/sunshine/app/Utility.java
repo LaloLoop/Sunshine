@@ -250,6 +250,39 @@ public class Utility {
         return -1;
     }
 
+    public static String getArtUrlForWeatherCondition(Context context, int weatherId) {
+        String iconId = "";
+        if(weatherId >= 200 && weatherId <= 232) {
+            iconId = "storm";
+        } else if(weatherId >= 300 && weatherId <= 321) {
+            iconId = "light_rain";
+        } else if(weatherId >= 500 && weatherId <= 504) {
+            iconId = "rain";
+        } else if (weatherId == 511) {
+            iconId = "snow";
+        } else if (weatherId >= 520 && weatherId <= 531) {
+            iconId = "rain";
+        } else if (weatherId >= 600 && weatherId <= 622) {
+            iconId = "rain";
+        } else if (weatherId >= 701 && weatherId <= 761) {
+            iconId = "fog";
+        } else if (weatherId > 761 && weatherId <= 781) {
+            iconId = "storm";
+        } else if (weatherId == 800) {
+            iconId = "clear";
+        } else if (weatherId == 801) {
+            iconId = "light_clouds";
+        } else if (weatherId >= 802 && weatherId <= 804) {
+            iconId = "clouds";
+        }
+
+        if(iconId.isEmpty()) {
+            return "";
+        } else {
+            return context.getString(R.string.icon_url, iconId);
+        }
+    }
+
     /**
      * Check for network connectivity
      * @param context   Context from which it is being called

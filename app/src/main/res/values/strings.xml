@@ -183,4 +183,7 @@
 
     <string name="condition_unknown">Unknown (<xliff:g id="low">%1$s</xliff:g>)</string>
 
+    <!-- Format for art loaded from external source -->
+    <string name="icon_url" translatable="false">https://raw.githubusercontent.com/LaloLoop/Sunshine/master/app/src/main/res/drawable-xxhdpi/art_<xliff:g id="icon_id">%s</xliff:g>.png</string>
+    
 </resources>

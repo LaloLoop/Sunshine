@@ -2,7 +2,9 @@ package com.example.android.sunshine.app;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
@@ -20,7 +22,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.util.Util;
 import com.example.android.sunshine.app.data.WeatherContract;
+
+import java.util.concurrent.ExecutionException;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -191,7 +197,12 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
 
             // Populate ui
             int weatherId = data.getInt(COL_WEATHER_CONDITION_ID);
-            mIconView.setImageResource(Utility.getArtResourceForWeatherCondition(weatherId));
+            int artResourceId = Utility.getArtResourceForWeatherCondition(weatherId);
+            String artUrl = Utility.getArtUrlForWeatherCondition(getActivity(), weatherId);
+            Glide.with(getActivity())
+                    .load(artUrl)
+                    .error(artResourceId)
+                    .into(mIconView);
 
             long date = data.getLong(COL_WEATHER_DATE);
             mDayTextView.setText(Utility.getDayName(

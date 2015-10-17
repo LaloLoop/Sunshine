@@ -77,7 +77,8 @@
                     android:layout_height="120dp"
                     tools:src="@mipmap/ic_launcher"
                     android:id="@+id/detail_icon"
-                    android:contentDescription="@string/content_desc_weather_icon" />
+                    android:contentDescription="@string/content_desc_weather_icon"
+                    android:adjustViewBounds="true"/>
 
                 <TextView
                     android:layout_width="match_parent"
