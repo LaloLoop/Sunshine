@@ -91,4 +91,9 @@
     <string name="condition_961">Tormenta Violenta</string>
     <string name="condition_962">Huracán</string>
     <string name="condition_unknown">Desconocido (<xliff:g id="low">%1$s</xliff:g>)</string>
+    <string name="label_icons_colored">Color</string>
+    <string name="label_icons_mono">Monocromo</string>
+    <string name="pref_icons_label">Iconos</string>
+    <string name="error_device_not_supported">Este dispositivo no está soportado</string>
+    <string name="error_invalid_gps_weather_dis">APK de Google Play Services inválido. Las alertas del clima estarán deshabilitadas.</string>
 </resources>

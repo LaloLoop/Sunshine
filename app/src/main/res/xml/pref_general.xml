@@ -21,6 +21,14 @@
         android:defaultValue="@string/pref_units_default"
         />
 
+    <ListPreference
+        android:key="@string/pref_icons_key"
+        android:title="@string/pref_icons_label"
+        android:dialogTitle="@string/pref_icons_label"
+        android:entries="@array/pref_icons_labels"
+        android:entryValues="@array/pref_icons_values"
+        android:defaultValue="@string/icons_value_colored" />
+
     <CheckBoxPreference
         android:title="@string/pref_enable_notifications_label"
         android:key="@string/pref_enable_notifications_key"

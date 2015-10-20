@@ -185,5 +185,33 @@
 
     <!-- Format for art loaded from external source -->
     <string name="icon_url" translatable="false">https://raw.githubusercontent.com/LaloLoop/Sunshine/master/app/src/main/res/drawable-xxhdpi/art_<xliff:g id="icon_id">%s</xliff:g>.png</string>
-    
+    <string name="icons_colored_url" translatable="false">https://raw.githubusercontent.com/LaloLoop/sunshine_icons/master/Archive/Colored/art_<xliff:g id="icon_id">%s</xliff:g>.png</string>
+    <string name="icons_mono_url" translatable="false">https://raw.githubusercontent.com/LaloLoop/sunshine_icons/master/Archive/Mono/art_<xliff:g id="icon_id">%s</xliff:g>.png</string>
+
+
+    <!-- Icons preference -->
+    <string name="pref_icons_label">Icons</string>
+    <string name="pref_icons_key" translatable="false">icons</string>
+
+    <!-- Labels for icons -->
+    <string name="label_icons_colored">Colored</string>
+    <string name="label_icons_mono">Monochromatic</string>
+
+    <!-- Options for icons -->
+    <string-array name="pref_icons_labels" translatable="false">
+        <item>@string/label_icons_colored</item>
+        <item>@string/label_icons_mono</item>
+    </string-array>
+
+    <!-- Option value for icons -->
+    <string name="icons_value_colored" translatable="false">colored_icons</string>
+    <string name="icons_value_mono" translatable="false">mono_icons</string>
+    <string name="error_device_not_supported">This device is not supported</string>
+    <string name="error_invalid_gps_weather_dis">No valid Google Play Services APK. Weather alerts will be disabled.</string>
+
+    <string-array name="pref_icons_values" translatable="false">
+        <item>@string/icons_value_colored</item>
+        <item>@string/icons_value_mono</item>
+    </string-array>
+
 </resources>

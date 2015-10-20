@@ -32,6 +32,7 @@ public class SettingsActivity extends PreferenceActivity implements
         // Bind for changes notifications.
         bindPreferenceSummaryToValue(findPreference(getString(R.string.pref_location_key)));
         bindPreferenceSummaryToValue(findPreference(getString(R.string.pref_units_key)));
+        bindPreferenceSummaryToValue(findPreference(getString(R.string.pref_icons_key)));
     }
 
     @Override

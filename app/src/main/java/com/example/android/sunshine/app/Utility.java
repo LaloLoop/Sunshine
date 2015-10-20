@@ -20,7 +20,9 @@ import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.preference.PreferenceManager;
+import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
+import android.support.annotation.StringRes;
 import android.text.format.Time;
 
 import com.example.android.sunshine.app.sync.SunshineSyncAdapter;
@@ -279,7 +281,17 @@ public class Utility {
         if(iconId.isEmpty()) {
             return "";
         } else {
-            return context.getString(R.string.icon_url, iconId);
+            @StringRes
+            int iconsUrl = R.string.icons_colored_url;
+            String iconPackValue = getIconPackPreferences(context);
+
+            if(iconPackValue.equals(context.getString(R.string.icons_value_colored))) {
+                iconsUrl = R.string.icons_colored_url;
+            } else if (iconPackValue.equals(context.getString(R.string.icons_value_mono))) {
+                iconsUrl = R.string.icons_mono_url;
+            }
+
+            return context.getString(iconsUrl, iconId);
         }
     }
 
@@ -510,7 +522,23 @@ public class Utility {
         return context.getString(stringId);
     }
 
+    /**
+     * Utility method to reset the sync status.
+     * @param context
+     */
     public static void resetSyncStatus(Context context) {
         saveSyncStatus(context, SunshineSyncAdapter.LOCATION_STATUS_UNKNOWN);
+    }
+
+    /**
+     * Get Icon Pack
+     * @param context
+     * @return
+     */
+    public static String getIconPackPreferences(Context context) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        return prefs.getString(
+                context.getString(R.string.pref_icons_key),
+                context.getString(R.string.icons_value_colored));
     }
 }
