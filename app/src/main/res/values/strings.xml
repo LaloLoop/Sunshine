@@ -73,19 +73,19 @@
     <!-- Windspeed formats -->
     <!-- Wind in mph [CHAR LIMIT=25] -->
     <string name="format_wind_mph">
-        Wind: <xliff:g id="speed">%1$1.0f</xliff:g> mph <xliff:g id="direction">%2$s</xliff:g>
+        <xliff:g id="speed">%1$1.0f</xliff:g> mph <xliff:g id="direction">%2$s</xliff:g>
     </string>
 
-        <!-- Wind in kph [CHAR LIMIT=25] -->
+    <!-- Wind in kph [CHAR LIMIT=25] -->
     <string name="format_wind_kmh">
-        Wind: <xliff:g id="speed">%1$1.0f</xliff:g> km/h <xliff:g id="direction">%2$s</xliff:g>
+        <xliff:g id="speed">%1$1.0f</xliff:g> km/h <xliff:g id="direction">%2$s</xliff:g>
     </string>
 
     <!-- Pressure format CHAR LIMIT=25] -->
-    <string name="format_pressure">Pressure: <xliff:g id="pressure">%1.0f</xliff:g> hPa</string>
+    <string name="format_pressure"><xliff:g id="pressure">%1.0f</xliff:g> hPa</string>
 
     <!-- Humidity format CHAR LIMIT=25]-->
-    <string name="format_humidity">Humidity: <xliff:g id="humidity">%1.0f</xliff:g> %%</string>
+    <string name="format_humidity"><xliff:g id="humidity">%1.0f</xliff:g> %%</string>
 
     <!-- Account type (for sync-adapter authenticator) -->
     <!-- SyncAdapter related -->
@@ -184,7 +184,7 @@
     <string name="condition_unknown">Unknown (<xliff:g id="low">%1$s</xliff:g>)</string>
 
     <!-- Format for art loaded from external source -->
-    <string name="icon_url" translatable="false">https://raw.githubusercontent.com/LaloLoop/Sunshine/master/app/src/main/res/drawable-xxhdpi/art_<xliff:g id="icon_id">%s</xliff:g>.png</string>
+    <string name="icons_default_url" translatable="false">https://raw.githubusercontent.com/LaloLoop/Sunshine/master/app/src/main/res/drawable-xxhdpi/art_<xliff:g id="icon_id">%s</xliff:g>.png</string>
     <string name="icons_colored_url" translatable="false">https://raw.githubusercontent.com/LaloLoop/sunshine_icons/master/Archive/Colored/art_<xliff:g id="icon_id">%s</xliff:g>.png</string>
     <string name="icons_mono_url" translatable="false">https://raw.githubusercontent.com/LaloLoop/sunshine_icons/master/Archive/Mono/art_<xliff:g id="icon_id">%s</xliff:g>.png</string>
 
@@ -194,24 +194,37 @@
     <string name="pref_icons_key" translatable="false">icons</string>
 
     <!-- Labels for icons -->
+    <string name="label_icons_default">Original</string>
     <string name="label_icons_colored">Colored</string>
     <string name="label_icons_mono">Monochromatic</string>
 
     <!-- Options for icons -->
     <string-array name="pref_icons_labels" translatable="false">
+        <item>@string/label_icons_default</item>
         <item>@string/label_icons_colored</item>
         <item>@string/label_icons_mono</item>
     </string-array>
 
-    <!-- Option value for icons -->
-    <string name="icons_value_colored" translatable="false">colored_icons</string>
-    <string name="icons_value_mono" translatable="false">mono_icons</string>
-    <string name="error_device_not_supported">This device is not supported</string>
-    <string name="error_invalid_gps_weather_dis">No valid Google Play Services APK. Weather alerts will be disabled.</string>
-
     <string-array name="pref_icons_values" translatable="false">
+        <item>@string/icons_value_default</item>
         <item>@string/icons_value_colored</item>
         <item>@string/icons_value_mono</item>
     </string-array>
+
+    <!-- Option value for icons -->
+    <string name="icons_value_default" translatable="false">default_icons</string>
+    <string name="icons_value_colored" translatable="false">colored_icons</string>
+    <string name="icons_value_mono" translatable="false">mono_icons</string>
+
+    <!-- GCM error messages -->
+    <string name="error_device_not_supported">This device is not supported</string>
+    <string name="error_invalid_gps_weather_dis">No valid Google Play Services APK. Weather alerts will be disabled.</string>
+
+    <!-- Labels for detail -->
+    <string name="humidity">Humidity</string>
+    <string name="pressure">Pressure</string>
+    <string name="wind">Wind</string>
+
+
 
 </resources>

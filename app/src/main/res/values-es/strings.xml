@@ -7,11 +7,11 @@
     <string name="content_desc_today_weather">Clima de hoy</string>
     <string name="content_desc_weather_icon">Icono de clima</string>
     <string name="error_no_maps_app">No posee una aplicación de mapas, instale una</string>
-    <string name="format_humidity">Humedad: <xliff:g id="humidity">%1.0f</xliff:g> %%</string>
+    <string name="format_humidity"><xliff:g id="humidity">%1.0f</xliff:g> %%</string>
     <string name="format_notification">Clima: <xliff:g id="condition">%1$s</xliff:g> Máx: <xliff:g id="high">%2$s</xliff:g> Mín: <xliff:g id="low">%3$s</xliff:g></string>
-    <string name="format_pressure">Presión: <xliff:g id="pressure">%1.0f</xliff:g> hPa</string>
-    <string name="format_wind_kmh">Viento: <xliff:g id="speed">%1$1.0f</xliff:g> km/h <xliff:g id="direction">%2$s</xliff:g></string>
-    <string name="format_wind_mph">Viento: <xliff:g id="speed">%1$1.0f</xliff:g> mph <xliff:g id="direction">%2$s</xliff:g></string>
+    <string name="format_pressure"><xliff:g id="pressure">%1.0f</xliff:g> hPa</string>
+    <string name="format_wind_kmh"><xliff:g id="speed">%1$1.0f</xliff:g> km/h <xliff:g id="direction">%2$s</xliff:g></string>
+    <string name="format_wind_mph"><xliff:g id="speed">%1$1.0f</xliff:g> mph <xliff:g id="direction">%2$s</xliff:g></string>
     <string name="pref_location_label">Ubicación</string>
     <string name="pref_units_imperial">Imperiales</string>
     <string name="pref_units_label">Unidades</string>
@@ -96,4 +96,8 @@
     <string name="pref_icons_label">Iconos</string>
     <string name="error_device_not_supported">Este dispositivo no está soportado</string>
     <string name="error_invalid_gps_weather_dis">APK de Google Play Services inválido. Las alertas del clima estarán deshabilitadas.</string>
+    <string name="pressure">Presión</string>
+    <string name="wind">Viento</string>
+    <string name="humidity">Humedad</string>
+    <string name="label_icons_default">Originales</string>
 </resources>

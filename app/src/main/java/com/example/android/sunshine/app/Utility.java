@@ -252,6 +252,12 @@ public class Utility {
         return -1;
     }
 
+    /**
+     * Gets Url to download Icons from network.
+     * @param context       Application's context.
+     * @param weatherId     Weather Id we got from Web Service.
+     * @return              Url to download icon.
+     */
     public static String getArtUrlForWeatherCondition(Context context, int weatherId) {
         String iconId = "";
         if(weatherId >= 200 && weatherId <= 232) {
@@ -282,13 +288,15 @@ public class Utility {
             return "";
         } else {
             @StringRes
-            int iconsUrl = R.string.icons_colored_url;
+            int iconsUrl;
             String iconPackValue = getIconPackPreferences(context);
 
             if(iconPackValue.equals(context.getString(R.string.icons_value_colored))) {
                 iconsUrl = R.string.icons_colored_url;
             } else if (iconPackValue.equals(context.getString(R.string.icons_value_mono))) {
                 iconsUrl = R.string.icons_mono_url;
+            } else {
+                iconsUrl = R.string.icons_default_url;
             }
 
             return context.getString(iconsUrl, iconId);
@@ -539,6 +547,6 @@ public class Utility {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         return prefs.getString(
                 context.getString(R.string.pref_icons_key),
-                context.getString(R.string.icons_value_colored));
+                context.getString(R.string.icons_value_default));
     }
 }

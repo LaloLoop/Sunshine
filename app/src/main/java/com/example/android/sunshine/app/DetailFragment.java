@@ -2,16 +2,17 @@ package com.example.android.sunshine.app;
 
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Bitmap;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.ShareActionProvider;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -23,10 +24,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.util.Util;
 import com.example.android.sunshine.app.data.WeatherContract;
-
-import java.util.concurrent.ExecutionException;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -67,8 +65,7 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     static final int COL_WEATHER_CONDITION_ID = 8;
 
     // Ui elements
-    private TextView mDayTextView;
-    private TextView mMonthTextView;
+    private TextView mDateTextView;
     private TextView mHighTextView;
     private TextView mLowTextView;
     private TextView mHumidityTextView;
@@ -107,13 +104,12 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
                              Bundle savedInstanceState) {
         // Get views to bind with values
         View rootView = inflater.inflate(R.layout.fragment_detail, container, false);
-        mDayTextView = (TextView) rootView.findViewById(R.id.detail_day_textview);
-        mMonthTextView = (TextView) rootView.findViewById(R.id.detail_month_textview);
+        mDateTextView = (TextView) rootView.findViewById(R.id.detail_date_textview);
         mHighTextView = (TextView) rootView.findViewById(R.id.detail_high_textview);
         mLowTextView = (TextView) rootView.findViewById(R.id.detail_low_textview);
         mHumidityTextView = (TextView) rootView.findViewById(R.id.detail_humidity_textview);
         mWindTextView = (TextView) rootView.findViewById(R.id.detail_wind_textview);
-        mPressureTextView = (TextView) rootView.findViewById(R.id.detail_preassure_textview);
+        mPressureTextView = (TextView) rootView.findViewById(R.id.detail_pressure_textview);
         mForecastTextView = (TextView) rootView.findViewById(R.id.detail_forecast_textview);
         mIconView = (ImageView) rootView.findViewById(R.id.detail_icon);
 
@@ -136,11 +132,16 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
         // Inflate Resource file
         inflater.inflate(R.menu.detailfragment, menu);
 
+        finishCreatingMenu(menu);
+
+    }
+
+    public void finishCreatingMenu(Menu menu) {
         // Locate MenuItem with ShareActionProvider
-        MenuItem item = menu.findItem(R.id.action_share);
+        MenuItem menuItem = menu.findItem(R.id.action_share);
 
         // Store the ShareActionProvider
-        mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(item);
+        mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(menuItem);
 
         if(mShareActionProvider != null){
             if(mForecast != null){
@@ -149,7 +150,6 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
         }else {
             Log.e(LOG_TAG, "Share Action Provider is null!");
         }
-
     }
 
     // Create the shareIntent
@@ -205,13 +205,10 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
                     .into(mIconView);
 
             long date = data.getLong(COL_WEATHER_DATE);
-            mDayTextView.setText(Utility.getDayName(
+            mDateTextView.setText(Utility.getFriendlyDayString(
                     getActivity(),
                     date
             ));
-            mMonthTextView.setText(Utility.getFormattedMonthDay(
-                    getActivity(),
-                    date));
 
             boolean isMetric = Utility.isMetric(getActivity());
 
@@ -257,6 +254,28 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
             // Set if on createOptionMenu has already happened
             if(mForecast != null && mShareActionProvider != null) {
                 mShareActionProvider.setShareIntent(createForecastIntent());
+            }
+        }
+
+        AppCompatActivity activity = (AppCompatActivity)getActivity();
+        Toolbar toolbaView = (Toolbar) getView().findViewById(R.id.toolbar);
+
+        // Start the enter transition after the data has loaded
+        if(toolbaView != null) {
+            if(activity instanceof DetailActivity) {
+                activity.setSupportActionBar(toolbaView);
+                ActionBar actionBar = activity.getSupportActionBar();
+                if(actionBar != null) {
+                    actionBar.setDisplayShowTitleEnabled(false);
+                    actionBar.setDisplayHomeAsUpEnabled(true);
+                }
+            } else {
+                Menu menu = toolbaView.getMenu();
+                if(menu != null ){
+                    menu.clear();
+                 }
+                toolbaView.inflateMenu(R.menu.detailfragment);
+                finishCreatingMenu(toolbaView.getMenu());
             }
         }
     }

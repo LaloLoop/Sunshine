@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="appId">your-api-key</string>
+    <string name="appId" translatable="false">your-api-key</string>
 </resources>

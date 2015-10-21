@@ -1,122 +1,125 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/fragment"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_width="match_parent">
+    android:orientation="vertical">
 
-    <LinearLayout
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingTop="@dimen/activity_vertical_margin"
-        android:paddingBottom="@dimen/activity_vertical_margin"
-        android:paddingStart="@dimen/activity_vertical_margin"
-        android:paddingEnd="@dimen/activity_vertical_margin"
-        android:orientation="vertical">
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/white"/>
+
+    <include layout="@layout/detail_today_grid"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="3" />
+
+    <android.support.v7.widget.GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        android:background="@color/detail_accent_pane_background"
+        android:paddingTop="@dimen/abc_list_item_padding_horizontal_material"
+        android:paddingBottom="@dimen/abc_list_item_padding_horizontal_material"
+        app:columnCount="2">
 
         <TextView
-            android:layout_width="match_parent"
+            android:id="@+id/detail_humidity_label_textview"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            tools:text="Today"
-            android:id="@+id/detail_day_textview"
-            android:fontFamily="sans-serif-condensed"
-            style="@style/DetailTodayHeader"/>
+            android:fontFamily="sans-serif"
+            android:paddingEnd="@dimen/forecast_detail_horizontal_padding"
+            android:paddingRight="@dimen/forecast_detail_horizontal_padding"
+            android:paddingStart="@dimen/forecast_detail_horizontal_padding"
+            android:paddingLeft="@dimen/forecast_detail_horizontal_padding"
+            android:gravity="center_vertical"
+            android:text="@string/humidity"
+            android:textAppearance="@style/TextAppearance.AppCompat.Title"
+            android:textColor="@color/detail_accent_label"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1"/>
+
 
         <TextView
-            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:text="June 24"
-            android:fontFamily="sans-serif-condensed"
-            android:id="@+id/detail_month_textview"
-            style="@style/DetailTodaySubtitle"/>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:baselineAligned="false"
-            android:layout_marginBottom="16dp">
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:gravity="center">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    tools:text="21º"
-                    android:textSize="96sp"
-                    android:id="@+id/detail_high_textview"
-                    android:fontFamily="sans-serif-light"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    tools:text="8º"
-                    android:textSize="48sp"
-                    android:fontFamily="sans-serif-light"
-                    android:id="@+id/detail_low_textview"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:gravity="center">
-
-                <ImageView
-                    android:layout_width="120dp"
-                    android:layout_height="120dp"
-                    tools:src="@mipmap/ic_launcher"
-                    android:id="@+id/detail_icon"
-                    android:contentDescription="@string/content_desc_weather_icon"
-                    android:adjustViewBounds="true"/>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    tools:text="Clear"
-                    android:gravity="center"
-                    android:id="@+id/detail_forecast_textview"
-                    android:textAppearance="?android:textAppearanceLarge"
-                    android:fontFamily="sans-serif-light"/>
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            tools:text="Humidity: 84%"
+            android:layout_width="0dp"
+            android:paddingEnd="@dimen/forecast_detail_horizontal_padding"
+            android:paddingRight="@dimen/forecast_detail_horizontal_padding"
+            android:paddingStart="@dimen/forecast_detail_horizontal_padding"
+            android:paddingLeft="@dimen/forecast_detail_horizontal_padding"
             android:id="@+id/detail_humidity_textview"
-            android:fontFamily="sans-serif-light"
-            style="@style/WeatherDetails"/>
+            android:gravity="center_vertical"
+            android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+            android:textColor="@android:color/white"
+            tools:text="38%"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1"/>
 
         <TextView
-            android:layout_width="match_parent"
+            android:id="@+id/detail_pressure_label_textview"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            tools:text="Pressure: 1014 hPa"
-            android:id="@+id/detail_preassure_textview"
-            android:fontFamily="sans-serif-light"
-            style="@style/WeatherDetails"/>
+            android:paddingEnd="@dimen/forecast_detail_horizontal_padding"
+            android:paddingRight="@dimen/forecast_detail_horizontal_padding"
+            android:paddingStart="@dimen/forecast_detail_horizontal_padding"
+            android:paddingLeft="@dimen/forecast_detail_horizontal_padding"
+            android:fontFamily="sans-serif"
+            android:gravity="center_vertical"
+            android:text="@string/pressure"
+            android:textAppearance="@style/TextAppearance.AppCompat.Title"
+            android:textColor="@color/detail_accent_label"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1"/>
 
         <TextView
-            android:layout_width="match_parent"
+            android:id="@+id/detail_pressure_textview"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            tools:text="Wind: 6km/H NW"
+            android:paddingEnd="@dimen/forecast_detail_horizontal_padding"
+            android:paddingRight="@dimen/forecast_detail_horizontal_padding"
+            android:paddingStart="@dimen/forecast_detail_horizontal_padding"
+            android:paddingLeft="@dimen/forecast_detail_horizontal_padding"
+            android:gravity="center_vertical"
+            android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+            android:textColor="@android:color/white"
+            app:layout_columnWeight="1"
+            tools:text="995 hPa"
+            app:layout_rowWeight="1"/>
+
+        <TextView
+            android:id="@+id/detail_wind_label_textview"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:paddingEnd="@dimen/forecast_detail_horizontal_padding"
+            android:paddingRight="@dimen/forecast_detail_horizontal_padding"
+            android:paddingStart="@dimen/forecast_detail_horizontal_padding"
+            android:paddingLeft="@dimen/forecast_detail_horizontal_padding"
+            android:fontFamily="sans-serif"
+            android:gravity="center_vertical"
+            android:text="@string/wind"
+            android:textColor="@color/detail_accent_label"
+            android:textAppearance="@style/TextAppearance.AppCompat.Title"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1"/>
+
+        <TextView
             android:id="@+id/detail_wind_textview"
-            android:fontFamily="sans-serif-light"
-            style="@style/WeatherDetails"/>
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:paddingEnd="@dimen/forecast_detail_horizontal_padding"
+            android:paddingRight="@dimen/forecast_detail_horizontal_padding"
+            android:paddingStart="@dimen/forecast_detail_horizontal_padding"
+            android:paddingLeft="@dimen/forecast_detail_horizontal_padding"
+            android:gravity="center_vertical"
+            android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+            android:textColor="@android:color/white"
+            tools:text="6km/H NW"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1"/>
 
-    </LinearLayout>
+    </android.support.v7.widget.GridLayout>
 
-</ScrollView>
+</LinearLayout>
