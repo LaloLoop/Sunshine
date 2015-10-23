@@ -549,4 +549,17 @@ public class Utility {
                 context.getString(R.string.pref_icons_key),
                 context.getString(R.string.icons_value_default));
     }
+
+    /**
+     * Helper method to return wheter or not Sunshine is using local graphics.
+     *
+     * @param context Context to use for retrieving the preference
+     * @return true if Sunshine is using local graphics, false otherwise.
+     */
+    public static boolean usingLocalGraphics(Context context) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        String sunshineArtPack = context.getString(R.string.icons_value_default);
+        return prefs.getString(context.getString(R.string.pref_icons_key), sunshineArtPack)
+                .equals(sunshineArtPack);
+    }
 }

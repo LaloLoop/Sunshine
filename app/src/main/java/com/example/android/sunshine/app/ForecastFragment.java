@@ -12,6 +12,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -19,7 +21,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,7 +33,7 @@ import com.example.android.sunshine.app.sync.SunshineSyncAdapter;
  * A placeholder fragment containing a simple view.
  */
 public class ForecastFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>,
-        SharedPreferences.OnSharedPreferenceChangeListener {
+        SharedPreferences.OnSharedPreferenceChangeListener, ForecastAdapter.ViewHolder.ForecastViewHolderClick {
     private final String LOG_TAG = ForecastFragment.class.getSimpleName();
 
     // Main list adapter
@@ -91,12 +92,13 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
     // Vars for map feature
     private long mLatLong[];
     private String mCityName;
-    private int mPosition;
-    private ListView mForecastList;
+    private int mPosition = RecyclerView.NO_POSITION;
+    private RecyclerView mForecastList;
     private boolean mUseTodayView;
 
-    // Empty listview.
+    // Empty ListView.
     private TextView mEmptyWatherView;
+
     @SunshineSyncAdapter.LocationStatus
     private int mSyncStatus;
 
@@ -110,46 +112,16 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
         View fragmentView = inflater.inflate(R.layout.fragment_main, container, false);
 
         // Get reference to ListView to set adapter
-        mForecastList = (ListView) fragmentView.findViewById(R.id.listview_forecast);
+        mForecastList = (RecyclerView) fragmentView.findViewById(R.id.recyclerview_forecast);
+        mForecastList.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         mEmptyWatherView = (TextView) fragmentView.findViewById(R.id.no_weather_info_view);
 
-        mForecastList.setEmptyView(mEmptyWatherView);
-
-        mForecastAdapter = new ForecastAdapter(getActivity(), null, 0);
+        mForecastAdapter = new ForecastAdapter(null, getActivity(), this, mEmptyWatherView);
         mForecastAdapter.setUseSpecialTodayView(mUseTodayView);
 
         // Set the adapter
         mForecastList.setAdapter(mForecastAdapter);
-
-        // Set OnClickListener
-        mForecastList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                // Get the currently selected item
-                Cursor cursor = (Cursor) mForecastAdapter.getItem(position);
-
-                if (cursor != null) {
-                    Activity a = getActivity();
-
-                    if (a instanceof Callback) {
-                        String locationSetting = Utility.getPreferredLocation(a);
-
-                        Uri dateUri = WeatherContract.WeatherEntry.buildWeatherLocationWithDate(
-                                locationSetting,
-                                cursor.getLong(COL_WEATHER_DATE));
-
-                        Callback c = (Callback) a;
-
-                        c.onItemSelected(dateUri);
-
-                        mPosition = position;
-                    }
-
-                }
-
-            }
-        });
 
         // Indicate that we want to receive onCreateOptionsMenu call.
         this.setHasOptionsMenu(true);
@@ -208,25 +180,6 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
     }
 
     private void updateWeather() {
-        // Get the location defined by the user in preferences
-//        String locationPref = Utility.getPreferredLocation(getActivity());
-
-        // Execute task with zip.
-//        new FetchWeatherTask(getActivity()).execute(locationPref);
-
-        // Set intent for alarm in the next 5 seconds.
-//        AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
-//
-//        Intent serviceIntent = new Intent(getActivity(), SunshineService.AlarmReceiver.class);
-//        serviceIntent.putExtra(SunshineService.PARAM_LOCATION_SETTINGS, locationPref);
-//
-//        PendingIntent alarmIntent = PendingIntent.getBroadcast(getActivity(), 0, serviceIntent, 0);
-//
-//        alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP,
-//                SystemClock.elapsedRealtime() + 5 * 1000, alarmIntent);
-
-        //getActivity().startService(serviceIntent);
-
         SunshineSyncAdapter.syncImmediately(getActivity());
     }
 
@@ -307,9 +260,9 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
 
                 mForecastAdapter.swapCursor(data);
 
-                if (mPosition != ListView.INVALID_POSITION) {
+                /*if (mPosition != ListView.INVALID_POSITION) {
                     mForecastList.setSelection(mPosition);
-                }
+                }*/
 
                 updateEmptyView();
 
@@ -348,7 +301,7 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
     }
 
     private void updateEmptyView() {
-        if(mForecastAdapter.getCount() == 0) {
+        if(mForecastAdapter.getItemCount() == 0) {
             mEmptyWatherView.setText(R.string.no_weather_data);
 
             @StringRes
@@ -390,6 +343,31 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         mSyncStatus = Utility.getSyncStatus(getActivity());
         updateEmptyView();
+    }
+
+    @Override
+    public void onItemClicked(int position) {
+        // Get the currently selected item
+        Cursor cursor = mForecastAdapter.getCursor();
+
+        if (cursor != null && cursor.moveToPosition(position)) {
+            Activity a = getActivity();
+
+            if (a instanceof Callback) {
+                String locationSetting = Utility.getPreferredLocation(a);
+
+                Uri dateUri = WeatherContract.WeatherEntry.buildWeatherLocationWithDate(
+                        locationSetting,
+                        cursor.getLong(COL_WEATHER_DATE));
+
+                Callback c = (Callback) a;
+
+                c.onItemSelected(dateUri);
+
+                mPosition = position;
+            }
+
+        }
     }
 
     /**

@@ -202,10 +202,15 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
             int weatherId = data.getInt(COL_WEATHER_CONDITION_ID);
             int artResourceId = Utility.getArtResourceForWeatherCondition(weatherId);
             String artUrl = Utility.getArtUrlForWeatherCondition(getActivity(), weatherId);
-            Glide.with(getActivity())
-                    .load(artUrl)
-                    .error(artResourceId)
-                    .into(mIconView);
+
+            if(Utility.usingLocalGraphics(getActivity())) {
+                mIconView.setImageResource(artResourceId);
+            } else {
+                Glide.with(getActivity())
+                        .load(artUrl)
+                        .error(artResourceId)
+                        .into(mIconView);
+            }
 
             long date = data.getLong(COL_WEATHER_DATE);
             mDateTextView.setText(Utility.getFriendlyDayString(
