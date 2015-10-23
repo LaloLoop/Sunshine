@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.StringRes;
@@ -97,7 +98,9 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
     private boolean mUseTodayView;
 
     // Empty ListView.
-    private TextView mEmptyWatherView;
+    private TextView mEmptyWeatherView;
+    private View mParallaxBar;
+    private RecyclerView.OnScrollListener mScrollListener;
 
     @SunshineSyncAdapter.LocationStatus
     private int mSyncStatus;
@@ -115,13 +118,45 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
         mForecastList = (RecyclerView) fragmentView.findViewById(R.id.recyclerview_forecast);
         mForecastList.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        mEmptyWatherView = (TextView) fragmentView.findViewById(R.id.no_weather_info_view);
+        mEmptyWeatherView = (TextView) fragmentView.findViewById(R.id.no_weather_info_view);
 
-        mForecastAdapter = new ForecastAdapter(null, getActivity(), this, mEmptyWatherView);
+        mForecastAdapter = new ForecastAdapter(null, getActivity(), this, mEmptyWeatherView);
         mForecastAdapter.setUseSpecialTodayView(mUseTodayView);
 
         // Set the adapter
         mForecastList.setAdapter(mForecastAdapter);
+
+        // GetParallax bar
+        mParallaxBar = fragmentView.findViewById(R.id.parallax_bar);
+        if(mParallaxBar != null) {
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+
+                mScrollListener = new RecyclerView.OnScrollListener() {
+                    @Override
+                    public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                        super.onScrolled(recyclerView, dx, dy);
+                        int max = mParallaxBar.getHeight();
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+                            if (dy > 0) {
+
+                                mParallaxBar.setTranslationY(
+                                        Math.max(-max, mParallaxBar.getTranslationY() - (dy / 2))
+                                );
+
+                            } else {
+                                mParallaxBar.setTranslationY(
+                                        Math.min(0, mParallaxBar.getTranslationY() - (dy / 2))
+                                );
+                            }
+                        }
+                    }
+                };
+
+                mForecastList.addOnScrollListener(mScrollListener);
+            }
+        }
+
 
         // Indicate that we want to receive onCreateOptionsMenu call.
         this.setHasOptionsMenu(true);
@@ -191,8 +226,10 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
     @Override
     public void onResume() {
         super.onResume();
+
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         sharedPreferences.registerOnSharedPreferenceChangeListener(this);
+
         mSyncStatus = Utility.getSyncStatus(getActivity());
     }
 
@@ -201,6 +238,15 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
         super.onPause();
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         sharedPreferences.unregisterOnSharedPreferenceChangeListener(this);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        if(mScrollListener != null) {
+            mForecastList.removeOnScrollListener(mScrollListener);
+        }
     }
 
     @Override
@@ -302,7 +348,7 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
 
     private void updateEmptyView() {
         if(mForecastAdapter.getItemCount() == 0) {
-            mEmptyWatherView.setText(R.string.no_weather_data);
+            mEmptyWeatherView.setText(R.string.no_weather_data);
 
             @StringRes
             int msgId = 0;
@@ -317,7 +363,7 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
                 msgId = R.string.empty_forecast_list_invalid_location;
             }
             if(msgId != 0) {
-                mEmptyWatherView.append("\n" + getString(msgId));
+                mEmptyWeatherView.append("\n" + getString(msgId));
             }
         }
     }

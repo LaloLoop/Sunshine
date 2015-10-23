@@ -7,7 +7,8 @@
     android:layout_width="match_parent"
     android:background="@drawable/touch_selector_white"
     app:columnCount="2"
-    android:elevation="@dimen/appbar_elevation">
+    android:elevation="@dimen/appbar_elevation"
+    android:layout_marginTop="@dimen/landscape_forecast_view_margin_top">
 
     <TextView
         android:id="@id/list_item_date_textview"
