@@ -11,6 +11,7 @@ import android.support.v4.content.Loader;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.ShareActionProvider;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -20,6 +21,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -103,7 +105,7 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Get views to bind with values
-        View rootView = inflater.inflate(R.layout.fragment_detail, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_detail_start, container, false);
         mDateTextView = (TextView) rootView.findViewById(R.id.detail_date_textview);
         mHighTextView = (TextView) rootView.findViewById(R.id.detail_high_textview);
         mLowTextView = (TextView) rootView.findViewById(R.id.detail_low_textview);
@@ -113,17 +115,18 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
         mForecastTextView = (TextView) rootView.findViewById(R.id.detail_forecast_textview);
         mIconView = (ImageView) rootView.findViewById(R.id.detail_icon);
 
-        // Get intent that called the activity.
-        Intent detailIntent = getActivity().getIntent();
-
         mUri = getDateUri();
 
-        getLoaderManager().initLoader(DETAIL_LOADER, detailIntent.getExtras(), this);
-
         // Ask for menu events.
-        setHasOptionsMenu(true);
+        /*setHasOptionsMenu(true);*/
 
         return rootView;
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        getLoaderManager().initLoader(DETAIL_LOADER, null, this);
+        super.onActivityCreated(savedInstanceState);
     }
 
     @Override
@@ -168,32 +171,32 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        Intent intent = getActivity().getIntent();
 
-        Uri dateUri;
-
-        if(intent == null || intent.getData() == null) {
-            dateUri = mUri;
-            if(dateUri == null) {
-                return null;
-            }
-        } else {
-            dateUri = intent.getData();
+        if(mUri != null) {
+            return new CursorLoader(
+                   getActivity(),
+                   mUri,
+                   DETAIL_COLUMNS,
+                   null,
+                   null,
+                   null
+            );
         }
-
-        return new CursorLoader(
-                getActivity(),
-                dateUri,
-                DETAIL_COLUMNS,
-                null,
-                null,
-                null
-        );
+        ViewParent vp = getView().getParent();
+        if(vp instanceof CardView) {
+            ((View)vp).setVisibility(View.INVISIBLE);
+        }
+        return null;
     }
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         if( data != null && data.moveToFirst() ){
+
+            ViewParent vp = getView().getParent();
+            if(vp instanceof CardView) {
+                ((View)vp).setVisibility(View.VISIBLE);
+            }
 
             // Populate ui
             int weatherId = data.getInt(COL_WEATHER_CONDITION_ID);
@@ -268,6 +271,7 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
                 if(actionBar != null) {
                     actionBar.setDisplayShowTitleEnabled(false);
                     actionBar.setDisplayHomeAsUpEnabled(true);
+                    setHasOptionsMenu(true);
                 }
             } else {
                 Menu menu = toolbaView.getMenu();

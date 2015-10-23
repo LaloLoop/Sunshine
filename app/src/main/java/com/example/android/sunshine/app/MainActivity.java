@@ -37,7 +37,7 @@ public class MainActivity extends ActionBarActivity implements ForecastFragment.
     private static final String DETAILFRAGMENT_TAG = "DFTAG";
     private final static int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
 
-    static final String PROJECT_NUMBER = "Your Project Number";
+    static final String PROJECT_NUMBER = "672426133293";
 
     private GoogleCloudMessaging mGcm;
 
