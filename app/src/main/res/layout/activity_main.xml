@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:baselineAligned="false"
-    android:orientation="vertical"
+    android:layout_height="wrap_content"
     tools:context="com.example.android.sunshine.app.MainActivity">
 
     <android.support.v7.widget.Toolbar
@@ -32,4 +30,4 @@
         tools:context="com.example.android.sunshine.app.ForecastFragment"
         tools:layout="@android:layout/list_content" />
 
-</LinearLayout>
+</FrameLayout>
