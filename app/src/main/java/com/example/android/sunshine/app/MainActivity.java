@@ -7,6 +7,8 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -194,11 +196,13 @@ public class MainActivity extends ActionBarActivity implements ForecastFragment.
             ).commit();
 
         } else {
+            ActivityOptionsCompat activityOptions =
+                    ActivityOptionsCompat.makeSceneTransitionAnimation(this);
             // Launch activity
             Intent detailIntent = new Intent(this, DetailActivity.class);
             detailIntent.setData(dateUri);
 
-            startActivity(detailIntent);
+            ActivityCompat.startActivity(this, detailIntent, activityOptions.toBundle());
         }
     }
 

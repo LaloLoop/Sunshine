@@ -28,6 +28,7 @@
     </FrameLayout>
 
     <android.support.v7.widget.GridLayout
+        android:id="@+id/detail_additional_pane"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         app:columnCount="2"
