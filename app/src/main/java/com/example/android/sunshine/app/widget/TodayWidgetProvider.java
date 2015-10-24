@@ -1,18 +1,14 @@
 package com.example.android.sunshine.app.widget;
 
 import android.annotation.TargetApi;
-import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
-import android.widget.RemoteViews;
+import android.os.Bundle;
 
-import com.example.android.sunshine.app.MainActivity;
-import com.example.android.sunshine.app.R;
 import com.example.android.sunshine.app.TodayWidgetIntentService;
-import com.example.android.sunshine.app.Utility;
 import com.example.android.sunshine.app.sync.SunshineSyncAdapter;
 
 /**
@@ -32,5 +28,13 @@ public class TodayWidgetProvider extends AppWidgetProvider {
         if(SunshineSyncAdapter.ACTION_DATA_UPDATED.equals(intent.getAction())) {
             context.startService(new Intent(context, TodayWidgetIntentService.class));
         }
+    }
+
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+    @Override
+    public void onAppWidgetOptionsChanged(
+            Context context, AppWidgetManager appWidgetManager, int appWidgetId, Bundle newOptions) {
+        super.onAppWidgetOptionsChanged(context, appWidgetManager, appWidgetId, newOptions);
+        context.startService(new Intent(context, TodayWidgetIntentService.class));
     }
 }
