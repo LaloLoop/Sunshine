@@ -1,5 +1,6 @@
 package com.example.android.sunshine.app;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -10,10 +11,12 @@ import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.StringRes;
+import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
@@ -130,6 +133,13 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
         mForecastAdapter = new ForecastAdapter(null, getActivity(), this, mEmptyWeatherView);
         mForecastAdapter.setUseSpecialTodayView(mUseTodayView);
 
+        // Indicate that we want to receive onCreateOptionsMenu call.
+        this.setHasOptionsMenu(true);
+
+        if(savedInstanceState != null && savedInstanceState.containsKey(EXTRA_ITEM_POSITION)) {
+            mPosition = savedInstanceState.getInt(EXTRA_ITEM_POSITION);
+        }
+
         // Set the adapter
         mRecyclerView.setAdapter(mForecastAdapter);
 
@@ -164,12 +174,22 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
             }
         }
 
-
-        // Indicate that we want to receive onCreateOptionsMenu call.
-        this.setHasOptionsMenu(true);
-
-        if(savedInstanceState != null && savedInstanceState.containsKey(EXTRA_ITEM_POSITION)) {
-            mPosition = savedInstanceState.getInt(EXTRA_ITEM_POSITION);
+        final AppBarLayout appbarView = (AppBarLayout) fragmentView.findViewById(R.id.appbar);
+        if(appbarView != null) {
+            ViewCompat.setElevation(appbarView, 0);
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+                    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+                    @Override
+                    public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                        if(mRecyclerView.computeVerticalScrollOffset() == 0) {
+                            appbarView.setElevation(0);
+                        } else {
+                            appbarView.setElevation(appbarView.getTargetElevation());
+                        }
+                    }
+                });
+            }
         }
 
         return fragmentView;
@@ -231,7 +251,7 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
         if(mCityName != null && mLatLong != null) {
 
              geoUriBuilder = Uri.parse("geo:0,0?").buildUpon()
-            .appendQueryParameter("q", String.valueOf(mLatLong[0]) + "," + String.valueOf(mLatLong[1]) + "(" + mCityName + ")").build();
+                     .appendQueryParameter("q", String.valueOf(mLatLong[0]) + "," + String.valueOf(mLatLong[1]) + "(" + mCityName + ")").build();
 
         }
 
@@ -268,9 +288,7 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
     public void onDestroy() {
         super.onDestroy();
 
-        if(mScrollListener != null) {
-            mRecyclerView.removeOnScrollListener(mScrollListener);
-        }
+        mRecyclerView.clearOnScrollListeners();
     }
 
     @Override
