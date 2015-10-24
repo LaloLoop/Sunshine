@@ -227,5 +227,6 @@
 
     <!-- Transitions names -->
     <string name="detail_icon_transition_name" translatable="false">detail_icon_transition</string>
+    <string name="title_widget_today">Today\'s forecast</string>
 
 </resources>

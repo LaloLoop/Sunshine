@@ -15,6 +15,7 @@ import android.content.SyncRequest;
 import android.content.SyncResult;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -82,6 +83,8 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
     private static final long DAY_IN_MILLIS = 1000 * 60 * 60 * 24;
     // Id to match notification so we can reuse it.
     private static final int WEATHER_NOTIFICATION_ID = 3004;
+
+    public static final String ACTION_DATA_UPDATED = "com.example.android.sunshine.app.ACTION_DATA_UPDATED";
 
     public SunshineSyncAdapter(Context context, boolean autoInitialize) {
         super(context, autoInitialize);
@@ -441,6 +444,9 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
 
             Utility.saveSyncStatus(getContext(), LOCATION_STATUS_OK);
 
+            Intent dataUpdatedIntent = new Intent(ACTION_DATA_UPDATED);
+            getContext().sendBroadcast(dataUpdatedIntent);
+
         } catch (JSONException e) {
             Log.e(LOG_TAG, e.getMessage(), e);
             e.printStackTrace();
@@ -550,28 +556,36 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
                                     .setContentTitle(title)
                                     .setContentText(contentText);
 
-                    int largeIconWidth = Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB
-                            ? context.getResources().getDimensionPixelSize(android.R.dimen.notification_large_icon_width)
-                            : context.getResources().getDimensionPixelSize(R.dimen.notification_large_icon_default);
-                    int largeIconHeight = Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB
-                            ? context.getResources().getDimensionPixelSize(android.R.dimen.notification_large_icon_height)
-                            : context.getResources().getDimensionPixelSize(R.dimen.notification_large_icon_default);
-
-                    String artUrl = Utility.getArtUrlForWeatherCondition(context, weatherId);
-
-                    try {
-
-                        Bitmap largeIcon = Glide.with(context)
-                                .load(artUrl)
-                                .asBitmap()
-                                .error(iconId)
-                                .into(largeIconWidth, largeIconHeight)
-                                .get();
-
+                    if(Utility.usingLocalGraphics(context)) {
+                        int resourceIcon = Utility.getArtResourceForWeatherCondition(weatherId);
+                        Bitmap largeIcon = BitmapFactory.decodeResource(context.getResources(), resourceIcon);
                         mBuilder = mBuilder.setLargeIcon(largeIcon).setSmallIcon(iconId);
+                    } else {
+                        int largeIconWidth = Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB
+                                ? context.getResources().getDimensionPixelSize(android.R.dimen.notification_large_icon_width)
+                                : context.getResources().getDimensionPixelSize(R.dimen.notification_large_icon_default);
+                        int largeIconHeight = Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB
+                                ? context.getResources().getDimensionPixelSize(android.R.dimen.notification_large_icon_height)
+                                : context.getResources().getDimensionPixelSize(R.dimen.notification_large_icon_default);
 
-                    } catch(InterruptedException | ExecutionException e) {
-                        mBuilder = mBuilder.setSmallIcon(iconId);
+                        String artUrl = Utility.getArtUrlForWeatherCondition(context, weatherId);
+
+                        try {
+
+                            Bitmap largeIcon = Glide.with(context)
+                                    .load(artUrl)
+                                    .asBitmap()
+                                    .error(iconId)
+                                    .into(largeIconWidth, largeIconHeight)
+                                    .get();
+
+                            mBuilder = mBuilder.setLargeIcon(largeIcon).setSmallIcon(iconId);
+
+                        } catch(InterruptedException | ExecutionException e) {
+                            int resourceIcon = Utility.getArtResourceForWeatherCondition(weatherId);
+                            Bitmap largeIcon = BitmapFactory.decodeResource(context.getResources(), resourceIcon);
+                            mBuilder = mBuilder.setLargeIcon(largeIcon).setSmallIcon(iconId);
+                        }
                     }
 
                     // Make something interesting happen when the user clicks on the notification.
