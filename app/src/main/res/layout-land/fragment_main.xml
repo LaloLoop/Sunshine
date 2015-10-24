@@ -25,6 +25,7 @@
             />
 
         <ImageView
+            android:id="@+id/app_logo"
             android:layout_width="match_parent"
             android:layout_height="?attr/listPreferredItemHeight"
             android:layout_gravity="center"
@@ -35,7 +36,9 @@
 
     </LinearLayout>
 
-    <include layout="@layout/fragment_main_base"
+    <include
+        android:id="@+id/forecast_list_container"
+        layout="@layout/fragment_main_base"
         android:layout_alignParentTop="true"
         android:layout_height="match_parent"
         android:layout_width="@dimen/landscape_forecast_view_width"
