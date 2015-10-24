@@ -225,6 +225,7 @@
     <string name="pressure">Pressure</string>
     <string name="wind">Wind</string>
 
-
+    <!-- Transitions names -->
+    <string name="detail_icon_transition_name" translatable="false">detail_icon_transition</string>
 
 </resources>

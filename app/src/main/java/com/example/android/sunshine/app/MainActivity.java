@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.util.Pair;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -17,6 +18,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.example.android.sunshine.app.sync.SunshineSyncAdapter;
 import com.google.android.gms.common.ConnectionResult;
@@ -186,18 +188,23 @@ public class MainActivity extends ActionBarActivity implements ForecastFragment.
     }
 
     @Override
-    public void onItemSelected(Uri dateUri) {
+    public void onItemSelected(Uri dateUri, ForecastAdapter.ViewHolder viewHolder) {
         if(mTwoPane) {
             // Replace detail fragment.
             getSupportFragmentManager().beginTransaction().replace(
                     R.id.weather_detail_container,
-                    DetailFragment.newInstance(dateUri),
+                    DetailFragment.newInstance(dateUri, false),
                     DETAILFRAGMENT_TAG
             ).commit();
 
         } else {
+
+            Pair<View, String> pair = new Pair<View, String>(
+                    viewHolder.mIconView, getString(R.string.detail_icon_transition_name));
+
             ActivityOptionsCompat activityOptions =
-                    ActivityOptionsCompat.makeSceneTransitionAnimation(this);
+                    ActivityOptionsCompat.makeSceneTransitionAnimation(this, pair);
+
             // Launch activity
             Intent detailIntent = new Intent(this, DetailActivity.class);
             detailIntent.setData(dateUri);

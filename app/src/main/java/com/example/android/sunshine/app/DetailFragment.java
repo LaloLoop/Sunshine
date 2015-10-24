@@ -76,29 +76,26 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     private TextView mForecastTextView;
     private ImageView mIconView;
 
+    public static final String SUPPORT_POSTPONE_ANIMATION = "extra_postpone_anim";
+    private boolean mStartPostponeAnimation = false;
+
     // Uri to get Data.
     private Uri mUri;
 
     public DetailFragment() {
     }
 
-    public static  DetailFragment newInstance(Uri dateUri) {
+    public static  DetailFragment newInstance(Uri dateUri, boolean postponeAnimation) {
         DetailFragment f = new DetailFragment();
 
         // Supply uri to fragment
         Bundle args = new Bundle();
         args.putParcelable("dateUri", dateUri);
+        args.putBoolean(DetailFragment.SUPPORT_POSTPONE_ANIMATION, postponeAnimation);
 
         f.setArguments(args);
 
         return f;
-    }
-
-    public Uri getDateUri() {
-        if(getArguments() != null) {
-            return getArguments().getParcelable("dateUri");
-        }
-        return null;
     }
 
     @Override
@@ -115,16 +112,22 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
         mForecastTextView = (TextView) rootView.findViewById(R.id.detail_forecast_textview);
         mIconView = (ImageView) rootView.findViewById(R.id.detail_icon);
 
-        mUri = getDateUri();
 
         // Ask for menu events.
         /*setHasOptionsMenu(true);*/
+
+        if(getArguments() != null) {
+            mUri = getArguments().getParcelable("dateUri");
+            mStartPostponeAnimation = getArguments()
+                    .getBoolean(DetailFragment.SUPPORT_POSTPONE_ANIMATION, false);
+        }
 
         return rootView;
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
+        getActivity().getIntent().getBooleanExtra(SUPPORT_POSTPONE_ANIMATION, true);
         getLoaderManager().initLoader(DETAIL_LOADER, null, this);
         super.onActivityCreated(savedInstanceState);
     }
@@ -266,12 +269,14 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
         }
 
         AppCompatActivity activity = (AppCompatActivity)getActivity();
-        Toolbar toolbaView = (Toolbar) getView().findViewById(R.id.toolbar);
+        Toolbar toolbarView = (Toolbar) getView().findViewById(R.id.toolbar);
 
         // Start the enter transition after the data has loaded
-        if(toolbaView != null) {
-            if(activity instanceof DetailActivity) {
-                activity.setSupportActionBar(toolbaView);
+        if(toolbarView != null) {
+            if(mStartPostponeAnimation) {
+                activity.supportStartPostponedEnterTransition();
+
+                activity.setSupportActionBar(toolbarView);
                 ActionBar actionBar = activity.getSupportActionBar();
                 if(actionBar != null) {
                     actionBar.setDisplayShowTitleEnabled(false);
@@ -279,14 +284,15 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
                     setHasOptionsMenu(true);
                 }
             } else {
-                Menu menu = toolbaView.getMenu();
+                Menu menu = toolbarView.getMenu();
                 if(menu != null ){
                     menu.clear();
                  }
-                toolbaView.inflateMenu(R.menu.detailfragment);
-                finishCreatingMenu(toolbaView.getMenu());
+                toolbarView.inflateMenu(R.menu.detailfragment);
+                finishCreatingMenu(toolbarView.getMenu());
             }
         }
+
     }
 
     @Override
