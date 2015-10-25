@@ -123,6 +123,33 @@
             android:exported="false" >
         </service>
 
+        <!-- Sunshine Detail Widget -->
+        <receiver
+            android:name=".widget.DetailWidgetProvider"
+            android:label="@string/title_widget_detail"
+            android:enabled="@bool/widget_detail_enabled"
+            >
+
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="com.example.android.sunshine.app.ACTION_DATA_UPDATED" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_info_detail"
+                />
+        </receiver>
+
+        <!-- Remote Views Service for detail widget -->
+        <service
+            android:name=".DetailWidgetRemoteViewsService"
+            android:permission="android.permission.BIND_REMOTEVIEWS"
+            android:enabled="@bool/widget_detail_enabled"/>
+
+        <!-- Muzei Service -->
+        <!--<service android:name=""-->
+        
     </application>
 
 </manifest>

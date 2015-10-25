@@ -84,7 +84,7 @@ public class TodayWidgetIntentService extends IntentService {
 
                     if (minWidth < 110) {
                         widgetLayout = R.layout.widget_today_small;
-                    } else if(minWidth >= 110 && minWidth < 200) {
+                    } else if(minWidth >= 110 && minWidth < 220) {
                         widgetLayout = R.layout.widget_today;
                     } else {
                         widgetLayout = R.layout.widget_today_large;

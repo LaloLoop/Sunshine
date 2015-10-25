@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Widget detail minimum sizes -->
+    <dimen name="widget_detail_min_height">@dimen/widget_detail_default_height</dimen>
+    <dimen name="widget_detail_min_width">220dp</dimen>
+
+    <!-- Widget detail default size -->
+    <dimen name="widget_detail_default_height">180dp</dimen>
+    <dimen name="widget_detail_default_width">250dp</dimen>
+
+    <!-- Margin for compatibility -->
+    <dimen name="widget_detail_margin">0dp</dimen>
+
+</resources>

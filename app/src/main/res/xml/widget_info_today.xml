@@ -7,6 +7,6 @@
     android:minHeight="@dimen/widget_today_default_height"
     android:minWidth="@dimen/widget_today_default_width"
     android:resizeMode="horizontal"
-    android:updatePeriodMillis="0">
-
+    android:updatePeriodMillis="0"
+    >
 </appwidget-provider>

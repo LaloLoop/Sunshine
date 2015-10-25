@@ -49,6 +49,7 @@ public class MainActivity extends ActionBarActivity implements ForecastFragment.
     protected void onCreate(Bundle savedInstanceState) {
         mLocation = Utility.getPreferredLocation(this);
         super.onCreate(savedInstanceState);
+        Uri detailUri = getIntent() != null ? getIntent().getData() : null;
 
         setContentView(R.layout.activity_main);
 
@@ -68,8 +69,10 @@ public class MainActivity extends ActionBarActivity implements ForecastFragment.
             // In two-pane mode show the detail view in this activity by adding or replacing
             // fragment using a fragment transaction.
             if(savedInstanceState == null) {
+                DetailFragment df = (detailUri != null)?
+                        DetailFragment.newInstance(detailUri, false):new DetailFragment();
                 getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.weather_detail_container, new DetailFragment(), DETAILFRAGMENT_TAG)
+                        .replace(R.id.weather_detail_container, df, DETAILFRAGMENT_TAG)
                         .commit();
             }
         } else {
