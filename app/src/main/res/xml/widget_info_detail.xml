@@ -10,6 +10,7 @@
     android:resizeMode="vertical|horizontal"
     android:updatePeriodMillis="0"
     android:widgetCategory="home_screen|keyguard"
+    android:previewImage="@drawable/widget_detail_preview"
     tools:ignore="UnusedAttribute"
     >
 </appwidget-provider>

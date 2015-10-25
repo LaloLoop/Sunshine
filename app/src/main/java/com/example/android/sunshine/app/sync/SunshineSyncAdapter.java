@@ -31,6 +31,7 @@ import com.example.android.sunshine.app.MainActivity;
 import com.example.android.sunshine.app.R;
 import com.example.android.sunshine.app.Utility;
 import com.example.android.sunshine.app.data.WeatherContract;
+import com.example.android.sunshine.app.muzei.WeatherMuzeiSource;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -438,14 +439,13 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
                         WeatherContract.WeatherEntry.COLUMN_DATE + " <= ?",
                         new String[]{Long.toString(dayTime.setJulianDay(julianStartDay - 1))});
 
+                updateWidgets();
+                updateMuzei();
                 notifyWeather();
 
             }
 
             Utility.saveSyncStatus(getContext(), LOCATION_STATUS_OK);
-
-            Intent dataUpdatedIntent = new Intent(ACTION_DATA_UPDATED);
-            getContext().sendBroadcast(dataUpdatedIntent);
 
         } catch (JSONException e) {
             Log.e(LOG_TAG, e.getMessage(), e);
@@ -453,6 +453,20 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
             throw  e;
         }
 
+    }
+
+    private void updateMuzei() {
+        // Update Muzei only for JellyBean MR1+ devices.
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            getContext().startService(new Intent(ACTION_DATA_UPDATED)
+                    .setClass(getContext(), WeatherMuzeiSource.class));
+        }
+    }
+
+    private void updateWidgets() {
+        Intent dataUpdatedIntent = new Intent(ACTION_DATA_UPDATED)
+                .setPackage(getContext().getPackageName());
+        getContext().sendBroadcast(dataUpdatedIntent);
     }
 
     /**
@@ -522,7 +536,7 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
             String lastNotificationKey = context.getString(R.string.pref_last_notification);
             long lastSync = prefs.getLong(lastNotificationKey, 0);
 
-            if (System.currentTimeMillis() - lastSync >= DAY_IN_MILLIS) {
+            //if (System.currentTimeMillis() - lastSync >= DAY_IN_MILLIS) {
                 // Last sync was more than 1 day ago, let's send a notification with the weather.
                 String locationQuery = Utility.getPreferredLocation(context);
 
@@ -531,7 +545,7 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
                 // we'll query our contentProvider, as always
                 Cursor cursor = context.getContentResolver().query(weatherUri, NOTIFY_WEATHER_PROJECTION, null, null, null);
 
-                if (cursor.moveToFirst()) {
+                if (cursor != null && cursor.moveToFirst()) {
                     int weatherId = cursor.getInt(INDEX_WEATHER_ID);
                     double high = cursor.getDouble(INDEX_MAX_TEMP);
                     double low = cursor.getDouble(INDEX_MIN_TEMP);
@@ -615,8 +629,10 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
                     SharedPreferences.Editor editor = prefs.edit();
                     editor.putLong(lastNotificationKey, System.currentTimeMillis());
                     editor.commit();
+
+                    cursor.close();
                 }
-            }
+            //}
         }
 
     }

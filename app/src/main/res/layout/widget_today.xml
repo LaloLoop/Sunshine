@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:padding="@dimen/abc_list_item_padding_horizontal_material"
-        android:background="@drawable/touch_selector_white">
+        android:background="@drawable/touch_selector_blue">
 
         <ImageView
             android:id="@+id/detail_icon"
@@ -37,7 +37,7 @@
                 android:textAppearance="?android:textAppearanceLarge"
                 android:textSize="40sp"
                 android:fontFamily="sans-serif"
-                android:textColor="@color/primary_text"
+                android:textColor="@color/white"
                 tools:text="19º"/>
 
             <TextView
@@ -48,7 +48,7 @@
                 android:textAppearance="?android:textAppearanceMedium"
                 android:textSize="25sp"
                 android:fontFamily="sans-serif"
-                android:textColor="@color/secondary_text"
+                android:textColor="@color/white"
                 tools:text="8º"/>
 
 

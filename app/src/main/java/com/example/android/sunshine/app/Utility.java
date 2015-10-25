@@ -562,4 +562,37 @@ public class Utility {
         return prefs.getString(context.getString(R.string.pref_icons_key), sunshineArtPack)
                 .equals(sunshineArtPack);
     }
+
+    public static String getImageUrlForWeatherCondition(Context context, int weatherId) {
+        String wallpaperName = "";
+        if(weatherId >= 200 && weatherId <= 232) {
+            wallpaperName = "storm";
+        } else if(weatherId >= 300 && weatherId <= 321) {
+            wallpaperName = "light_rain";
+        } else if(weatherId >= 500 && weatherId <= 504) {
+            wallpaperName = "rain";
+        } else if (weatherId == 511) {
+            wallpaperName = "snow";
+        } else if (weatherId >= 520 && weatherId <= 531) {
+            wallpaperName = "rain";
+        } else if (weatherId >= 600 && weatherId <= 622) {
+            wallpaperName = "rain";
+        } else if (weatherId >= 701 && weatherId <= 761) {
+            wallpaperName = "fog";
+        } else if (weatherId > 761 && weatherId <= 781) {
+            wallpaperName = "storm";
+        } else if (weatherId == 800) {
+            wallpaperName = "clear";
+        } else if (weatherId == 801) {
+            wallpaperName = "light_clouds";
+        } else if (weatherId >= 802 && weatherId <= 804) {
+            wallpaperName = "clouds";
+        }
+
+        if(wallpaperName.isEmpty()) {
+            return null;
+        } else {
+            return context.getString(R.string.walls_url_1edition, wallpaperName);
+        }
+    }
 }

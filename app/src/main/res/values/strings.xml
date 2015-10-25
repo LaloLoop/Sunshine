@@ -229,5 +229,9 @@
     <string name="detail_icon_transition_name" translatable="false">detail_icon_transition</string>
     <string name="title_widget_today">Today\'s forecast</string>
     <string name="title_widget_detail">Forecast Detail</string>
+    <string name="muzei_description">Sunshine wallpaper for today\'s weather</string>
+
+    <!-- Wallpapers for Sunshine! -->
+    <string name="walls_url_1edition" translatable="false">https://raw.githubusercontent.com/LaloLoop/SunshineWalls/master/1edition/<xliff:g id="wall_name">%s</xliff:g>.jpg</string>
 
 </resources>

@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:padding="@dimen/abc_list_item_padding_horizontal_material"
-        android:background="@drawable/touch_selector_white">
+        android:background="@drawable/touch_selector_blue">
 
         <ImageView
             android:id="@+id/detail_icon"
@@ -29,44 +29,38 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_gravity="center_vertical"
-            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textAppearance="@style/TextAppearance.AppCompat.Title"
             android:textSize="@dimen/forecast_description_text_size"
             android:fontFamily="sans-serif"
-            android:textColor="@color/primary_text"
+            android:textColor="@color/white"
             tools:text="Clear"/>
 
-        <LinearLayout
+
+        <TextView
+            android:id="@+id/detail_high_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/abc_list_item_padding_horizontal_material"
-            android:layout_marginStart="@dimen/abc_list_item_padding_horizontal_material"
-            android:orientation="vertical">
+            android:layout_gravity="center_vertical"
+            android:textAppearance="@style/ListItemTextLarge"
+            android:textSize="@dimen/high_temp_text_size"
+            android:layout_marginRight="@dimen/abc_list_item_padding_horizontal_material"
+            android:layout_marginEnd="@dimen/abc_list_item_padding_horizontal_material"
+            android:fontFamily="sans-serif"
+            android:textColor="@color/white"
+            tools:text="19º"/>
 
-            <TextView
-                android:id="@+id/detail_high_textview"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:textAppearance="?android:textAppearanceLarge"
-                android:textSize="@dimen/high_temp_text_size"
-                android:fontFamily="sans-serif"
-                android:textColor="@color/primary_text"
-                tools:text="19º"/>
-
-            <TextView
-                android:id="@+id/detail_low_textview"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:textAppearance="?android:textAppearanceMedium"
-                android:textSize="@dimen/low_temp_text_size"
-                android:fontFamily="sans-serif"
-                android:textColor="@color/secondary_text"
-                tools:text="8º"/>
+        <TextView
+            android:id="@+id/detail_low_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:textAppearance="@style/ListItemTextSmall"
+            android:textSize="@dimen/low_temp_text_size"
+            android:fontFamily="sans-serif"
+            android:textColor="@color/white"
+            tools:text="8º"/>
 
 
         </LinearLayout>
-
-    </LinearLayout>
 
 </FrameLayout>

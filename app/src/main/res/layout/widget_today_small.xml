@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:background="@drawable/touch_selector_white">
+        android:background="@drawable/touch_selector_blue">
 
         <ImageView
             android:id="@+id/detail_icon"
@@ -29,7 +29,7 @@
             android:textAppearance="?android:textAppearanceLarge"
             android:textSize="40sp"
             android:fontFamily="sans-serif"
-            android:textColor="@color/primary_text"
+            android:textColor="@color/white"
             tools:text="19º"/>
 
     </LinearLayout>
