@@ -11,4 +11,10 @@
     <!-- Margin for compatibility -->
     <dimen name="widget_detail_margin">0dp</dimen>
 
+    <!-- Empty text padding -->
+    <dimen name="widget_empty_padding">16dp</dimen>
+
+    <!-- Toolbar height -->
+    <dimen name="widget_detail_toolbar_height">48dp</dimen>
+
 </resources>
