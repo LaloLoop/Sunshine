@@ -25,4 +25,7 @@
     <!-- the color used for the low temperature in the forecast list -->
     <color name="forecast_low_text">#607D8B</color>
 
+    <!-- List item on portrait-->
+    <color name="list_item_back">@color/background_material_light</color>
+
 </resources>
