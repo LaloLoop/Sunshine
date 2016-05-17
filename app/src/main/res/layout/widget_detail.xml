@@ -42,7 +42,9 @@
                 android:background="@android:color/white"
                 android:textColor="@color/primary_text"
                 android:text="@string/no_weather_data"
-                android:textSize="20sp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:paddingLeft="@dimen/widget_empty_padding"
+                android:paddingRight="@dimen/widget_empty_padding"
                 />
 
         </FrameLayout>

@@ -420,7 +420,7 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
             if(!Utility.checkNetworkConnected(getActivity())) {
                 msgId = R.string.no_network_available;
             } else if(mSyncStatus == SunshineSyncAdapter.LOCATION_STATUS_SERVER_DOWN){
-                msgId = R.string.server_is_down;
+                msgId =  R.string.server_is_down;
             } else if(mSyncStatus == SunshineSyncAdapter.LOCATION_STATUS_SERVER_INVALID){
                 msgId = R.string.invalid_server;
             } else if(mSyncStatus == SunshineSyncAdapter.LOCATION_STATUS_INVALID) {

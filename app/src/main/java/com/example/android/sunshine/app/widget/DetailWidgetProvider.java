@@ -15,7 +15,6 @@ import com.example.android.sunshine.app.DetailActivity;
 import com.example.android.sunshine.app.DetailWidgetRemoteViewsService;
 import com.example.android.sunshine.app.MainActivity;
 import com.example.android.sunshine.app.R;
-import com.example.android.sunshine.app.TodayWidgetIntentService;
 import com.example.android.sunshine.app.sync.SunshineSyncAdapter;
 
 /**
@@ -36,7 +35,7 @@ public class DetailWidgetProvider extends AppWidgetProvider {
             // Set the RemoteViews object to use a RemoteViews adapter.
             RemoteViews rv = new RemoteViews(context.getPackageName(), R.layout.widget_detail);
             // Instantiate the RemoteViews object to use a RemoteViews adapter.
-            // This adapter connects to a RemoteViresService through the specified intent.
+            // This adapter connects to a RemoteViewsService through the specified intent.
             // This is how data gets filled.
             if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
                 setRemoteAdapter(rv, intent);
