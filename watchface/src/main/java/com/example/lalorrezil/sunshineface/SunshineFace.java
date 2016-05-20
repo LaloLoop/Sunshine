@@ -29,13 +29,15 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.content.ContextCompat;
 import android.support.wearable.watchface.CanvasWatchFaceService;
 import android.support.wearable.watchface.WatchFaceStyle;
-import android.text.format.Time;
 import android.view.SurfaceHolder;
 import android.view.WindowInsets;
 
 import java.lang.ref.WeakReference;
+import java.util.Calendar;
+import java.util.Locale;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
@@ -69,8 +71,8 @@ public class SunshineFace extends CanvasWatchFaceService {
         final BroadcastReceiver mTimeZoneReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                mTime.clear(intent.getStringExtra("time-zone"));
-                mTime.setToNow();
+                mCalendar.setTimeZone(TimeZone.getDefault());
+                invalidate();
             }
         };
         boolean mRegisteredTimeZoneReceiver = false;
@@ -79,7 +81,7 @@ public class SunshineFace extends CanvasWatchFaceService {
         Paint mTextPaint;
 
         boolean mAmbient;
-        Time mTime;
+        Calendar mCalendar;
         int mTapCount;
 
         float mXOffset;
@@ -105,12 +107,12 @@ public class SunshineFace extends CanvasWatchFaceService {
             mYOffset = resources.getDimension(R.dimen.digital_y_offset);
 
             mBackgroundPaint = new Paint();
-            mBackgroundPaint.setColor(resources.getColor(R.color.background));
+            mBackgroundPaint.setColor(ContextCompat.getColor(SunshineFace.this.getBaseContext(), R.color.primary));
 
             mTextPaint = new Paint();
-            mTextPaint = createTextPaint(resources.getColor(R.color.digital_text));
+            mTextPaint = createTextPaint(ContextCompat.getColor(SunshineFace.this.getBaseContext(), R.color.digital_text));
 
-            mTime = new Time();
+            mCalendar = Calendar.getInstance();
         }
 
         @Override
@@ -135,8 +137,8 @@ public class SunshineFace extends CanvasWatchFaceService {
                 registerReceiver();
 
                 // Update time zone in case it changed while we weren't visible.
-                mTime.clear(TimeZone.getDefault().getID());
-                mTime.setToNow();
+                mCalendar.setTimeZone(TimeZone.getDefault());
+                invalidate();
             } else {
                 unregisterReceiver();
             }
@@ -212,7 +214,7 @@ public class SunshineFace extends CanvasWatchFaceService {
          */
         @Override
         public void onTapCommand(int tapType, int x, int y, long eventTime) {
-            Resources resources = SunshineFace.this.getResources();
+
             switch (tapType) {
                 case TAP_TYPE_TOUCH:
                     // The user has started touching the screen.
@@ -223,8 +225,9 @@ public class SunshineFace extends CanvasWatchFaceService {
                 case TAP_TYPE_TAP:
                     // The user has completed the tap gesture.
                     mTapCount++;
-                    mBackgroundPaint.setColor(resources.getColor(mTapCount % 2 == 0 ?
-                            R.color.background : R.color.background2));
+                    int backColor = mTapCount % 2 == 0 ?
+                            R.color.background : R.color.background2;
+                    mBackgroundPaint.setColor(ContextCompat.getColor(SunshineFace.this.getBaseContext(), backColor));
                     break;
             }
             invalidate();
@@ -240,10 +243,15 @@ public class SunshineFace extends CanvasWatchFaceService {
             }
 
             // Draw H:MM in ambient mode or H:MM:SS in interactive mode.
-            mTime.setToNow();
+            mCalendar.setTimeInMillis(System.currentTimeMillis());
+
+            int hour = mCalendar.get(Calendar.HOUR_OF_DAY);
+            int minute = mCalendar.get(Calendar.MINUTE);
+            int seconds = mCalendar.get(Calendar.SECOND);
+
             String text = mAmbient
-                    ? String.format("%d:%02d", mTime.hour, mTime.minute)
-                    : String.format("%d:%02d:%02d", mTime.hour, mTime.minute, mTime.second);
+                    ? String.format(Locale.getDefault(), "%d:%02d", hour, seconds)
+                    : String.format(Locale.getDefault(), "%d:%02d:%02d", hour, minute, seconds);
             canvas.drawText(text, mXOffset, mYOffset, mTextPaint);
         }
 
