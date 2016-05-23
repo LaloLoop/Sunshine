@@ -42,12 +42,15 @@ import android.view.WindowInsets;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.PendingResult;
+import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.wearable.DataApi;
 import com.google.android.gms.wearable.DataEvent;
 import com.google.android.gms.wearable.DataEventBuffer;
 import com.google.android.gms.wearable.DataItem;
 import com.google.android.gms.wearable.DataMap;
 import com.google.android.gms.wearable.DataMapItem;
+import com.google.android.gms.wearable.PutDataRequest;
 import com.google.android.gms.wearable.Wearable;
 
 import java.lang.ref.WeakReference;
@@ -426,8 +429,6 @@ public class SunshineFace extends CanvasWatchFaceService {
                             mForecastYOffset,
                             mLowTempPaint
                     );
-                } else {
-                    // No information, request info to cellphone
                 }
             }
 
@@ -467,10 +468,26 @@ public class SunshineFace extends CanvasWatchFaceService {
 
         @Override
         public void onConnected(@Nullable Bundle bundle) {
+            Log.d(LOG_TAG, "Connected!");
             Wearable.DataApi.addListener(mGoogleApiClient, this);
 
-            Log.d(LOG_TAG, "Connected!");
+            // Sent request for data
+            PutDataRequest putDataRequest = PutDataRequest.create("/weather-data-requested");
+            putDataRequest.setUrgent();
 
+            PendingResult<DataApi.DataItemResult> pendingResult =
+                    Wearable.DataApi.putDataItem(mGoogleApiClient, putDataRequest);
+
+            pendingResult.setResultCallback(new ResultCallback<DataApi.DataItemResult>() {
+                @Override
+                public void onResult(@NonNull DataApi.DataItemResult dataItemResult) {
+                    if(dataItemResult.getStatus().isSuccess()) {
+                        Log.d(LOG_TAG, "Data item sent: " + dataItemResult.getDataItem().getUri());
+                    } else {
+                        Log.d(LOG_TAG, "Result unsuccessful");
+                    }
+                }
+            });
         }
 
         @Override
@@ -489,7 +506,9 @@ public class SunshineFace extends CanvasWatchFaceService {
         @Override
         public void onDataChanged(DataEventBuffer dataEventBuffer) {
             for(DataEvent event : dataEventBuffer) {
+                Log.d(LOG_TAG, "Item received " + event.getDataItem().getUri().getPath());
                 if(event.getType() == DataEvent.TYPE_CHANGED) {
+
                     DataItem item = event.getDataItem();
                     if(item.getUri().getPath().compareTo("/sunshine/weather") == 0) {
                         DataMap dataMap = DataMapItem.fromDataItem(item).getDataMap();

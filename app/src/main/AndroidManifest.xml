@@ -164,6 +164,16 @@
                 android:name="color"
                 android:value="@color/primary" />
         </service>
+
+        <!-- Wearable Listener Service implementation -->
+        <service android:name=".wear.WearDataListener">
+            <intent-filter>
+                <action android:name="com.google.android.gms.wearable.DATA_CHANGED" />
+                <data android:scheme="wear" android:host="*"
+                    android:path="/weather-data-requested" />
+            </intent-filter>
+        </service>
+
     </application>
 
 </manifest>
