@@ -523,6 +523,8 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter implements
 
                 PutDataRequest putDataRequest = putDataMapRequest.asPutDataRequest();
 
+                Log.d(LOG_TAG, "Sending: " + putDataRequest.getUri().getPath());
+
                 PendingResult<DataApi.DataItemResult> pendingResult =
                         Wearable.DataApi.putDataItem(mGoogleApiClient, putDataRequest);
 
@@ -530,7 +532,7 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter implements
                     @Override
                     public void onResult(@NonNull DataApi.DataItemResult dataItemResult) {
                         if(dataItemResult.getStatus().isSuccess()) {
-                            Log.d(LOG_TAG, "Data item set: " + dataItemResult.getDataItem().getUri());
+                            Log.d(LOG_TAG, "Data item sent: " + dataItemResult.getDataItem().getUri());
                         } else {
                             Log.d(LOG_TAG, "Result unsuccessful");
                         }
