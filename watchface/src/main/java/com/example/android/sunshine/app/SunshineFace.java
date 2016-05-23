@@ -193,9 +193,9 @@ public class SunshineFace extends CanvasWatchFaceService {
             mDateFormat = new SimpleDateFormat(getString(R.string.date_format), Locale.getDefault());
 
             mGoogleApiClient = new GoogleApiClient.Builder(SunshineFace.this.getBaseContext())
-                    .addApiIfAvailable(Wearable.API)
                     .addConnectionCallbacks(this)
                     .addOnConnectionFailedListener(this)
+                    .addApiIfAvailable(Wearable.API)
                     .build();
 
 
@@ -500,6 +500,9 @@ public class SunshineFace extends CanvasWatchFaceService {
         public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
             Log.d(LOG_TAG, "Connection Failed! " + connectionResult.getErrorMessage());
+            Log.d(LOG_TAG, "Error code: " + connectionResult.getErrorCode());
+            Log.d(LOG_TAG, "Has resolution: " + connectionResult.hasResolution());
+            Log.d(LOG_TAG, "Resolution: " + connectionResult.getResolution());
 
         }
 
